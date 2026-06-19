@@ -3,158 +3,133 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ampy offertformulär — variant 2 (en skärm)</title>
+<title>Ampy offertformulär — 1:1 replika (en skärm)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --mid:#090b32; --sea:#5eb1bf; --neon1:#55ff9a; --neon2:#00ffda;
-  --crystal:#b6f2ff; --lightblue:#bfe9fb; --teal:#00a991; --teal-soft:#7fe9d3;
+  --crystal:#b6f2ff; --pale:#f5f9ff; --teal:#00a991;
   --ink:#1e1e1e; --charcoal:#333; --gray:#b2b2b2; --white:#fff;
-  --radius:16px; --radius-card:27px;
-  --field-h:48px;
-  --lbl:rgba(255,255,255,.92); --sub:rgba(255,255,255,.80); --line:rgba(255,255,255,.16);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
 body{font-family:'Outfit',system-ui,sans-serif;background:#0a0c1e;color:var(--ink)}
 
+/* ---- review harness chrome (not the product) ---- */
 .bar{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
   padding:12px 18px;background:#11132c;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px;color:#cfd3e6}
 .bar .lab{color:#7e85a8;font-size:12px}
 .bar .grp{display:flex;gap:4px;background:#0a0c1e;padding:4px;border-radius:10px}
-.bar .grp button,.bar select{font-family:inherit;font-size:13px;border:1px solid rgba(255,255,255,.12);
-  background:#181b38;color:#cfd3e6;border-radius:8px;padding:7px 12px;cursor:pointer}
+.bar .grp button,.bar select{font-family:inherit;font-size:13px;border:1px solid rgba(255,255,255,.12);background:#181b38;color:#cfd3e6;border-radius:8px;padding:7px 12px;cursor:pointer}
 .bar .grp button.act{background:var(--white);color:#11132c;border-color:transparent;font-weight:500}
 
 .wrap{padding:36px 24px}
 .ctxnote{max-width:1180px;margin:0 auto 12px;font-size:12px;color:#6b7299}
 
-/* ===== existing hero block (CONTEXT for fit-check — not the deliverable) ===== */
-.block{max-width:1180px;margin:0 auto;background:var(--mid);border-radius:24px;padding:40px 48px 48px;
-  position:relative;overflow:hidden;background-image:radial-gradient(80% 120% at 92% 10%, #14224a 0%, rgba(20,34,74,0) 55%)}
-.crumb{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:34px}
+/* ---- existing hero block (CONTEXT for fit-check, not the deliverable) ---- */
+.block{max-width:1180px;margin:0 auto;background:var(--mid);border-radius:24px;padding:40px 48px 48px;position:relative;overflow:hidden;background-image:radial-gradient(80% 120% at 92% 10%, #14224a 0%, rgba(20,34,74,0) 55%)}
+.crumb{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:30px}
 .crumb b{color:rgba(255,255,255,.8);font-weight:400}
 .hero{display:flex;gap:48px;align-items:flex-start}
-.left{flex:1 1 0;min-width:0;color:var(--white);padding-top:6px}
-.left .eb{color:var(--teal-soft);font-size:15px;font-weight:500;margin:0 0 14px}
+.left{flex:1 1 0;min-width:0;color:var(--white);padding-top:4px}
+.left .eb{color:#7fe9d3;font-size:15px;font-weight:500;margin:0 0 14px}
 .left h1{font-size:40px;line-height:1.15;font-weight:500;margin:0 0 18px}
-.left h1 em{font-style:normal;color:var(--teal-soft)}
+.left h1 em{font-style:normal;color:#7fe9d3}
 .left p{font-size:17px;line-height:1.55;font-weight:300;color:rgba(255,255,255,.82);margin:0 0 26px;max-width:46ch}
 .left .ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:26px}
-.left .ctas a{display:flex;align-items:center;gap:10px;height:56px;padding:0 22px;border-radius:16px;
-  font-size:16px;font-weight:500;text-decoration:none}
+.left .ctas a{display:flex;align-items:center;gap:10px;height:56px;padding:0 22px;border-radius:16px;font-size:16px;font-weight:500;text-decoration:none}
 .left .ctas .c1{background:linear-gradient(120deg,var(--neon1),var(--neon2));color:var(--ink)}
 .left .ctas .c2{background:var(--crystal);color:var(--ink)}
 .left .rate{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--white)}
 .left .rate .g{width:26px;height:26px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4285f4;font-size:15px}
-.left .rate .st{color:var(--teal-soft);letter-spacing:2px}
+.left .rate .st{color:#7fe9d3;letter-spacing:2px}
 
-/* ===== THE FORM CARD (the deliverable) ===== */
-.formcol{flex:0 0 500px;width:500px}
-.card{position:relative;border-radius:var(--radius-card);padding:28px 30px;color:var(--white);
-  background:linear-gradient(156.51deg, rgba(9,11,50,.55) -33%, rgba(94,177,191,.42) 130%);
+/* ===== THE FORM CARD (deliverable) — 1:1 with current tokens ===== */
+.formcol{flex:0 0 495px;width:495px}
+.card{position:relative;border-radius:27px;padding:40px 32px 32px;color:var(--white);
   backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
-  box-shadow:0 24px 60px rgba(0,0,0,.30), inset 0 0 0 1px var(--line)}
+  box-shadow:0 24px 60px rgba(0,0,0,.30), inset 0 0 0 1px rgba(255,255,255,.10)}
+.card::before{content:"";position:absolute;inset:0;border-radius:27px;background:linear-gradient(156.51deg,#090B32 -33%,#5EB1BF 111%);opacity:.78;z-index:0}
+.card>*{position:relative;z-index:1}
 
-.title{font-size:29px;line-height:1.2;font-weight:400;margin:0;white-space:nowrap}
-.subtitle{font-size:15px;line-height:1.45;font-weight:300;color:var(--sub);margin:7px 0 0}
-
-.progress{display:flex;align-items:center;gap:10px;margin:16px 0 2px}
-.progress .pt{font-size:13px;color:var(--sub)}
-.progress .bars{display:flex;gap:6px}
-.progress .bars i{width:26px;height:4px;border-radius:99px;background:rgba(255,255,255,.30);display:block}
-.progress .bars i.on{background:var(--teal)}
+.title{font-size:30px;line-height:1.2;font-weight:400;margin:0;white-space:nowrap}
+.subtitle{font-size:16px;line-height:1.25;font-weight:300;color:var(--white);margin:6px 0 0;opacity:.92}
 
 form{margin:0}
-.group{margin-top:18px}
-.fld{margin-top:12px}
+.group{margin-top:22px}
+.fld{margin-top:14px}
 .fld:first-child{margin-top:0}
-.row2{display:flex;gap:12px;margin-top:12px}
-.row2 .fld{flex:1;margin-top:0;min-width:0}
-label.l{display:block;font-size:14px;font-weight:500;color:var(--lbl);margin:0 0 6px}
-label.l .opt{font-weight:300;color:var(--sub)}
-.inp{width:100%;height:var(--field-h);border:1px solid rgba(178,178,178,.5);border-radius:14px;
-  background:var(--white);color:var(--ink);font-family:inherit;font-size:16px;font-weight:400;padding:0 15px;outline:none;
-  transition:box-shadow .15s,border-color .15s}
-textarea.inp{height:80px;padding:11px 15px;resize:none;line-height:1.45}
-select.inp{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%231e1e1e' stroke-width='1.6'><path d='M5 8l5 5 5-5'/></svg>");background-repeat:no-repeat;background-position:right 13px center}
-.inp::placeholder{color:var(--gray)}
+label.l{display:block;font-size:15px;line-height:19px;font-weight:400;color:var(--white);margin:0 0 8px}
+label.l .opt{opacity:.7}
+.inp{width:100%;height:56px;border:1px solid rgba(178,178,178,.45);border-radius:16px;background:var(--white);color:var(--ink);font-family:inherit;font-size:18px;font-weight:400;padding:0 18px;outline:none;transition:box-shadow .15s,border-color .15s}
+textarea.inp{height:88px;padding:14px 18px;resize:none;line-height:1.4}
+select.inp{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' stroke='%231e1e1e' stroke-width='1.6'><path d='M5 8l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 16px center}
 .inp[inputmode]{font-variant-numeric:tabular-nums}
-.inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,169,145,.45)}
+.inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,169,145,.4)}
 .fld.err .inp{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,169,145,.35)}
-.help{display:none;font-size:13px;line-height:1.4;color:var(--teal-soft);margin:6px 2px 0}
+.help{display:none;font-size:13px;line-height:1.4;color:#bff3e6;margin:7px 2px 0}
 .fld.err .help{display:block}
 
-/* segment — light-blue selected, white others, grouped in one container (clone of current colours) */
-.seg{display:flex;gap:6px;background:rgba(255,255,255,.10);border-radius:16px;padding:5px}
-.seg button{flex:1;height:44px;border:0;border-radius:12px;background:var(--white);color:rgba(30,30,30,.82);
-  font-family:inherit;font-size:18px;font-weight:400;cursor:pointer;transition:.15s}
-.seg button[aria-checked="true"]{background:var(--lightblue);color:var(--ink);font-weight:500}
+/* segment — 3 pills directly on card (NO container background), 1:1 sizes */
+.seg{display:flex;gap:14px}
+.seg button{flex:1;height:47px;border:0;border-radius:16px;background:var(--white);color:var(--ink);font-family:inherit;font-size:18px;font-weight:400;cursor:pointer;transition:.15s}
+.seg button[aria-checked="true"]{background:#bfe9fb;font-weight:500}
 
-/* gäller chip (compact, one row) */
-.gchip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.12);border:1px solid var(--line);
-  border-radius:14px;padding:11px 14px;font-size:15px;color:var(--white)}
-.gchip .gk{color:var(--sub);font-weight:300}
-.gchip .ic{width:18px;height:18px;color:var(--teal-soft);flex:none}
+/* gäller box (kept — owner loves it) */
+.gchip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px 16px;font-size:16px;color:var(--white)}
+.gchip .gk{opacity:.75;font-weight:300}
+.gchip .ic{width:19px;height:19px;color:#7fe9d3;flex:none}
 
 /* consent */
-.consent{display:flex;gap:11px;align-items:flex-start;margin-top:16px;cursor:pointer}
-.consent input{appearance:none;flex:0 0 22px;width:22px;height:22px;margin:0;border:1.5px solid rgba(255,255,255,.5);
-  border-radius:6px;background:rgba(255,255,255,.06);cursor:pointer;position:relative;transition:.15s}
+.consent{display:flex;gap:11px;align-items:flex-start;margin-top:18px;cursor:pointer}
+.consent input{appearance:none;flex:0 0 22px;width:22px;height:22px;margin:0;border:1.5px solid rgba(255,255,255,.5);border-radius:6px;background:rgba(255,255,255,.06);cursor:pointer;position:relative;transition:.15s}
 .consent input:checked{background:var(--teal);border-color:var(--teal)}
 .consent input:checked::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #042b24;border-width:0 2px 2px 0;transform:rotate(45deg)}
 .consent input:focus-visible{box-shadow:0 0 0 3px rgba(0,169,145,.45)}
-.consent span{font-size:13px;line-height:1.5;color:var(--sub)}
-.consent a{color:var(--teal-soft)}
+.consent span{font-size:13px;line-height:1.5;color:var(--white);opacity:.85}
+.consent a{color:#7fe9d3}
 .fld.err .consent input{border-color:var(--teal);box-shadow:0 0 0 2px rgba(0,169,145,.35)}
 
-/* buttons */
-.btn{width:100%;height:50px;border:0;border-radius:14px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:9px;transition:.18s}
+/* buttons — 1:1 */
+.btn{width:100%;height:62px;border:0;border-radius:16px;font-family:inherit;font-size:20px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:.18s}
 .btn-primary{background:linear-gradient(120deg,var(--neon1),var(--neon2));color:var(--ink)}
 .btn-primary:hover{filter:brightness(.96);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,255,218,.30)}
-.btn-secondary{background:var(--crystal);color:var(--ink);font-weight:500}
-.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.5);color:var(--white);font-weight:400;height:46px}
+.btn-secondary{background:var(--crystal);color:var(--ink)}
 .btn:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(0,169,145,.5)}
-.cta-zone{margin-top:18px}
-.cta-zone .btn-ghost{margin-top:10px}
+.cta-zone{margin-top:22px}
 
 /* ring (eljour) */
-.ring{display:flex;flex-direction:column;gap:6px;background:rgba(0,169,145,.14);border:1px solid rgba(0,169,145,.5);border-radius:14px;padding:13px 15px;margin-bottom:16px}
-.ring a{display:flex;align-items:center;justify-content:center;gap:9px;height:46px;border-radius:12px;background:linear-gradient(120deg,var(--neon1),var(--neon2));color:var(--ink);font-size:17px;font-weight:600;text-decoration:none}
-.ring .note{font-size:12px;line-height:1.45;color:var(--sub)}
+.ring{display:flex;flex-direction:column;gap:6px;background:rgba(0,169,145,.14);border:1px solid rgba(0,169,145,.5);border-radius:16px;padding:14px 16px;margin-bottom:18px}
+.ring a{display:flex;align-items:center;justify-content:center;gap:9px;height:50px;border-radius:14px;background:linear-gradient(120deg,var(--neon1),var(--neon2));color:var(--ink);font-size:18px;font-weight:500;text-decoration:none}
+.ring .note{font-size:13px;line-height:1.45;color:var(--white);opacity:.82}
 
-/* expander */
-.disc{margin-top:16px}
-.disc>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:46px;padding:0 15px;
-  background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.32);border-radius:14px;color:var(--white);
-  font-family:inherit;font-size:15px;font-weight:500;cursor:pointer}
+/* expander (kept) */
+.disc{margin-top:18px}
+.disc>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:52px;padding:0 18px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.32);border-radius:16px;color:var(--white);font-family:inherit;font-size:16px;font-weight:400;cursor:pointer}
 .disc>button .chev{transition:transform .2s}
 .disc[data-open="true"]>button .chev{transform:rotate(180deg)}
 .disc[data-open="false"] .disc-body{display:none}
-.disc-body{padding-top:4px}
-.upload{display:flex;align-items:center;justify-content:center;gap:9px;height:60px;border:1.5px dashed rgba(255,255,255,.34);border-radius:14px;color:var(--sub);font-size:14px;margin-top:6px}
+.disc-body{padding-top:6px}
+.upload{display:flex;align-items:center;justify-content:center;gap:9px;height:64px;border:1.5px dashed rgba(255,255,255,.34);border-radius:16px;color:var(--white);opacity:.7;font-size:14px;margin-top:6px}
 
-.done{text-align:center;padding:10px 4px 4px}
-.done .ok{width:58px;height:58px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-.done .ok svg{width:28px;height:28px;stroke:#042b24}
-.done h2{font-size:24px;font-weight:400;margin:0 0 8px}
-.done p{font-size:15px;line-height:1.55;font-weight:300;color:var(--sub);margin:0}
 svg.ic{display:block}
 
-/* ===== mobile (.m) — driven by matchMedia + harness toggle ===== */
-.m .hero{flex-direction:column;gap:28px}
+/* ===== mobile (.m) — replicates the current mobile design (full-width card, tall rounded fields, generous spacing) ===== */
+.m .wrap{padding:0}
+.m .block{max-width:none;border-radius:0;padding:22px 16px 30px;background-image:none}
+.m .hero{flex-direction:column;gap:26px}
 .m .formcol{flex:none;width:100%}
-.m .block{padding:24px 18px 28px}
-.m .card{padding:22px 18px;border-radius:20px}
-.m .title{font-size:22px;white-space:normal}
-.m .row2{flex-direction:column;gap:0}
-.m .row2 .fld{margin-top:12px}
-.m .inp{height:52px}
-.m .btn{height:54px}
-.m .left h1{font-size:26px}
+.m .card{padding:28px 22px;border-radius:24px}
+.m .title{font-size:26px;white-space:normal;line-height:1.2}
+.m .subtitle{font-size:16px}
+.m .inp{height:60px;font-size:18px;border-radius:18px}
+.m label.l{font-size:16px}
+.m .seg{gap:10px}
+.m .seg button{height:52px;font-size:17px}
+.m .btn{height:64px;font-size:20px;border-radius:18px}
+.m .left h1{font-size:28px}
 .m .left .ctas{flex-direction:column}
 .m .left .ctas a{width:100%;justify-content:center}
 
@@ -164,8 +139,6 @@ svg.ic{display:block}
 </head>
 <body>
 <div class="bar">
-  <span class="lab">Variant:</span>
-  <div class="grp" id="variant"><button data-variant="v2">2 · En skärm (vald)</button><button data-variant="v1">1 · Kontakt först</button></div>
   <span class="lab">Sida:</span>
   <select id="scenario">
     <option value="elbesiktning" selected>elbesiktning</option>
@@ -181,51 +154,44 @@ svg.ic{display:block}
 </div>
 
 <div class="wrap">
-  <p class="ctxnote">Hero-blocket runt formuläret är BEFINTLIG kontext (för att kontrollera passform på desktop) — ej del av leveransen. Leveransen = formulär-kortet till höger.</p>
+  <p class="ctxnote">Hero-blocket runt formuläret är BEFINTLIG kontext (för att kontrollera passform) — ej del av leveransen. Leveransen = formulär-kortet.</p>
   <div class="block" id="block"></div>
 </div>
 
 <script>
 (function(){
   var SC = {
-    elbesiktning:{crumb:"Elbesiktning", eb:"Professionell elbesiktning", h2:"Trygg elbesiktning med <em>30% ROT-avdrag</em>", para:"Säkra ditt hem genom en professionell besiktning av el i din villa, lägenhet eller företag. Våra certifierade elektriker utför även elbesiktning av bostadsrättsföreningar.", kundtyp:"privat", ask:false, tjanst:"Elbesiktning", ort:"", akut:false, cta:"Få offert"},
-    elcentral:{crumb:"Elcentral", eb:"Byta elcentral", h2:"Ny elcentral installerad med <em>30% ROT-avdrag</em>", para:"Dags att byta ditt gamla proppskåp? Vi hjälper dig att uppgradera din elcentral till moderna automatsäkringar för en säkrare elanläggning.", kundtyp:"privat", ask:false, tjanst:"Byte av elcentral", ort:"", akut:false, cta:"Få offert"},
-    laddbox:{crumb:"Laddbox", eb:"Laddbox i Sollentuna", h2:"Offert på laddbox med <em>grön teknik-avdrag</em>", para:"Installation av laddbox hemma av behörig elektriker. Du kan ha rätt till grön teknik-avdrag på 50 procent av arbete och material, upp till 50 000 kr per person och år.", kundtyp:"privat", ask:false, tjanst:"Laddbox", ort:"Sollentuna", akut:false, cta:"Få laddbox-offert"},
-    eljour:{crumb:"Eljour", eb:"Eljour i Sollentuna", h2:"Akut elfel? <em>Ring oss direkt.</em>", para:"Vid fara eller brand: ring 112 först. För akut elfel når du oss direkt på telefon.", kundtyp:"privat", ask:false, tjanst:"Elfel", ort:"Sollentuna", akut:true, cta:"Få offert"},
-    elinstallation:{crumb:"Elinstallation", eb:"Elinstallation i Sollentuna", h2:"Offert på elinstallation med <em>30% ROT-avdrag</em>", para:"Behörig elektriker för installation i hemmet. För arbete i bostaden kan du använda ROT-avdraget.", kundtyp:"privat", ask:false, tjanst:"Elinstallation", ort:"Sollentuna", akut:false, cta:"Få offert"},
-    brf:{crumb:"För BRF", eb:"Elektriker för bostadsrättsföreningar", h2:"El i fastigheten — <em>offert till er förening</em>", para:"Berätta vad föreningen behöver, så återkommer vi med ett förslag som håller nere kostnaden för medlemmarna.", kundtyp:"brf", ask:true, tjanst:"", ort:"", akut:false, cta:"Få offert"},
-    foretag:{crumb:"För företag", eb:"Elektriker för företag", h2:"El på arbetsplatsen — <em>offert till ert företag</em>", para:"Berätta vad ni behöver, så återkommer vi med ett förslag och ett fast pris där ingenting hänger på slumpen.", kundtyp:"foretag", ask:true, tjanst:"", ort:"", akut:false, cta:"Få offert"}
+    elbesiktning:{crumb:"Elbesiktning", eb:"Professionell elbesiktning", h2:"Trygg elbesiktning med <em>30% ROT-avdrag</em>", para:"Säkra ditt hem genom en professionell besiktning av el i din villa, lägenhet eller företag. Våra certifierade elektriker utför även elbesiktning av bostadsrättsföreningar.", kundtyp:"privat", ask:false, tjanst:"Elbesiktning", akut:false},
+    elcentral:{crumb:"Elcentral", eb:"Byta elcentral", h2:"Ny elcentral installerad med <em>30% ROT-avdrag</em>", para:"Dags att byta ditt gamla proppskåp? Vi hjälper dig att uppgradera din elcentral till moderna automatsäkringar för en säkrare elanläggning.", kundtyp:"privat", ask:false, tjanst:"Byte av elcentral", akut:false},
+    laddbox:{crumb:"Laddbox", eb:"Laddbox i Sollentuna", h2:"Offert på laddbox med <em>grön teknik-avdrag</em>", para:"Installation av laddbox hemma av behörig elektriker. Du kan ha rätt till grön teknik-avdrag på 50 procent av arbete och material, upp till 50 000 kr per person och år.", kundtyp:"privat", ask:false, tjanst:"Laddbox", akut:false},
+    eljour:{crumb:"Eljour", eb:"Eljour i Sollentuna", h2:"Akut elfel? <em>Ring oss direkt.</em>", para:"Vid fara eller brand: ring 112 först. För akut elfel når du oss direkt på telefon.", kundtyp:"privat", ask:false, tjanst:"Elfel", akut:true},
+    elinstallation:{crumb:"Elinstallation", eb:"Elinstallation i Sollentuna", h2:"Offert på elinstallation med <em>30% ROT-avdrag</em>", para:"Behörig elektriker för installation i hemmet. För arbete i bostaden kan du använda ROT-avdraget.", kundtyp:"privat", ask:false, tjanst:"Elinstallation", akut:false},
+    brf:{crumb:"För BRF", eb:"Elektriker för bostadsrättsföreningar", h2:"El i fastigheten — <em>offert till er förening</em>", para:"Berätta vad föreningen behöver, så återkommer vi med ett förslag som håller nere kostnaden för medlemmarna.", kundtyp:"brf", ask:true, tjanst:"", akut:false},
+    foretag:{crumb:"För företag", eb:"Elektriker för företag", h2:"El på arbetsplatsen — <em>offert till ert företag</em>", para:"Berätta vad ni behöver, så återkommer vi med ett förslag och ett fast pris där ingenting hänger på slumpen.", kundtyp:"foretag", ask:true, tjanst:"", akut:false}
   };
   var SEG = {privat:"Privat", brf:"BRF", foretag:"Företag"};
   var TJ = ["Elinstallation","Belysning","Energilösningar","Kök och badrum","Elfel","Annat"];
-  var st = {variant:"v2", scenario:"elbesiktning", step:1, view:"desktop", seg:"privat", open:false};
+  var st = {scenario:"elbesiktning", view:"desktop", seg:"privat", open:false};
   var block = document.getElementById('block');
   function d(s){return SC[st.scenario][s];}
 
-  function head(){
-    return '<h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Tjänsten är helt gratis och du binder dig inte!</p>';
-  }
+  function head(){ return '<h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Tjänsten är helt gratis och du binder dig inte!</p>'; }
   function seg(){
     return '<div class="seg" role="radiogroup" aria-label="Kundtyp">'+['privat','brf','foretag'].map(function(k){
       return '<button type="button" role="radio" data-seg="'+k+'" aria-checked="'+(st.seg===k)+'">'+SEG[k]+'</button>';}).join('')+'</div>';
   }
   function tjanst(){
-    if(d('ask')){
-      return '<div class="fld"><label class="l" for="tj">Vad gäller arbetet?</label><select class="inp" id="tj">'+TJ.map(function(o){return '<option>'+o+'</option>';}).join('')+'</select></div>';
-    }
+    if(d('ask')) return '<div class="fld"><label class="l" for="tj">Vad gäller arbetet?</label><select class="inp" id="tj">'+TJ.map(function(o){return '<option>'+o+'</option>';}).join('')+'</select></div>';
     return '<div class="gchip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span class="gk">Gäller:</span> '+d('tjanst')+'</div>';
   }
   function fld(label,id,type,opt){
     var im = type==='tel'?' inputmode="tel"':(type==='num'?' inputmode="numeric"':'');
     var t = type==='num'?'text':type;
     var ac = id==='namn'?'name':id==='telefon'?'tel':id==='postnr'?'postal-code':id==='epost'?'email':'off';
-    return '<div class="fld"><label class="l" for="'+id+'">'+label+(opt?' <span class="opt">(valfritt)</span>':'')+'</label>'+
-      '<input class="inp" id="'+id+'" type="'+t+'"'+im+' autocomplete="'+ac+'"><p class="help" id="'+id+'-h"></p></div>';
+    return '<div class="fld"><label class="l" for="'+id+'">'+label+(opt?' <span class="opt">(valfritt)</span>':'')+'</label><input class="inp" id="'+id+'" type="'+t+'"'+im+' autocomplete="'+ac+'"><p class="help" id="'+id+'-h"></p></div>';
   }
   function consent(){
-    return '<div class="fld"><label class="consent"><input type="checkbox" id="gdpr" required>'+
-      '<span>Jag godkänner att Ampy behandlar mina uppgifter, enligt <a href="https://ampy.se/integritetspolicy" target="_blank" rel="noopener">integritetspolicyn</a>.</span></label>'+
-      '<p class="help" id="gdpr-h" style="margin-left:33px">Vi behöver ditt godkännande för att få kontakta dig.</p></div>';
+    return '<div class="fld"><label class="consent"><input type="checkbox" id="gdpr" required><span>Jag godkänner att Ampy behandlar mina uppgifter, enligt <a href="https://ampy.se/integritetspolicy" target="_blank" rel="noopener">integritetspolicyn</a>.</span></label><p class="help" id="gdpr-h" style="margin-left:33px">Vi behöver ditt godkännande för att få kontakta dig.</p></div>';
   }
   function enrich(){
     var org='';
@@ -241,38 +207,15 @@ svg.ic{display:block}
     if(!d('akut')) return '';
     return '<div class="ring"><a href="tel:+46102657979"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 005 5l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>Ring 010-265 79 79</a><p class="note">Vid fara eller brand: ring 112 först.</p></div>';
   }
-  function formV2(){
+  function form(){
     var pCls = d('akut')?'btn-secondary':'btn-primary';
     return head()+'<form novalidate>'+ring()+
       '<div class="group">'+seg()+'</div>'+
-      '<div class="group">'+tjanst()+
-        fld('Namn','namn','text',false)+
-        '<div class="row2">'+fld('Telefon','telefon','tel',false)+fld('Postnummer','postnr','num',false)+'</div>'+'</div>'+
+      '<div class="group">'+tjanst()+ fld('Namn','namn','text',false)+ fld('Telefon','telefon','tel',false)+ fld('Postnummer','postnr','num',false)+'</div>'+
       '<div class="disc" data-open="'+st.open+'"><button type="button" data-act="toggle" aria-expanded="'+st.open+'">Fler detaljer (valfritt)<svg class="chev ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l5 5 5-5"/></svg></button><div class="disc-body"><div class="group">'+enrich()+'</div></div></div>'+
       consent()+
-      '<div class="cta-zone"><button type="button" class="btn '+pCls+'" data-act="submitV2">'+d('cta')+'</button></div></form>';
+      '<div class="cta-zone"><button type="button" class="btn '+pCls+'" data-act="submit">Boka rådgivning</button></div></form>';
   }
-  function formV1(){
-    if(st.step===1){
-      var pCls=d('akut')?'btn-secondary':'btn-primary';
-      return head()+'<div class="progress"><span class="pt">Steg 1 av 2</span><div class="bars"><i class="on"></i><i></i></div></div>'+
-        '<form novalidate>'+ring()+'<div class="group">'+seg()+'</div>'+
-        '<div class="group">'+tjanst()+fld('Namn','namn','text',false)+'<div class="row2">'+fld('Telefon','telefon','tel',false)+fld('Postnummer','postnr','num',false)+'</div></div>'+
-        consent()+'<div class="cta-zone"><button type="button" class="btn '+pCls+'" data-act="submit1">Skicka förfrågan</button></div></form>';
-    }
-    if(st.step===2){
-      return '<div class="progress"><span class="pt">Steg 2 av 2 · frivilligt</span><div class="bars"><i class="on"></i><i class="on"></i></div></div>'+
-        '<h1 class="title" style="white-space:normal;font-size:24px">Tack, vi har din förfrågan</h1>'+
-        '<p class="subtitle">Vi hör av oss med ett förslag. Vill du lägga till detaljer medan du är här?</p>'+
-        '<form novalidate><div class="group">'+enrich()+'</div><div class="cta-zone"><button type="button" class="btn btn-primary" data-act="finish">Slutför</button><button type="button" class="btn btn-ghost" data-act="finish">Hoppa över</button></div></form>';
-    }
-    return done();
-  }
-  function done(){
-    return '<div class="done"><div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></div><h2>Tack, vi har din förfrågan</h2><p>Vi hör av oss med ett förslag.</p><div class="cta-zone"><button type="button" class="btn btn-secondary" data-act="restart">Visa igen</button></div></div>';
-  }
-  function cardInner(){ return (st.variant==='v1')?formV1():formV2(); }
-
   function left(){
     return '<div class="left"><p class="eb">'+d('eb')+'</p><h1>'+d('h2')+'</h1><p>'+d('para')+'</p>'+
       '<div class="ctas"><a class="c1" href="#" onclick="return false">Kontakta oss <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>'+
@@ -280,33 +223,27 @@ svg.ic{display:block}
       '<div class="rate"><span class="g">G</span><span>5.0</span><span class="st">★★★★★</span></div></div>';
   }
   function render(){
-    block.innerHTML = '<p class="crumb">Hem <b>›</b> '+d('crumb')+'</p><div class="hero">'+left()+'<div class="formcol"><div class="card">'+cardInner()+'</div></div></div>';
-    mark('variant','variant',st.variant); mark('view','view',st.view);
-    applyMobile();
+    block.innerHTML = '<p class="crumb">Hem <b>›</b> '+d('crumb')+'</p><div class="hero">'+left()+'<div class="formcol"><div class="card">'+form()+'</div></div></div>';
+    mark('view','view',st.view); applyMobile();
   }
   function mark(id,attr,val){var g=document.getElementById(id);Array.prototype.forEach.call(g.children,function(b){b.classList.toggle('act',b.dataset[attr]===val);});}
-  function applyMobile(){var m=(st.view==='mob')||window.matchMedia('(max-width:760px)').matches;document.body.classList.toggle('m',m);}
-  function setScenario(k){st.scenario=k;st.seg=SC[k].kundtyp;st.step=1;st.open=false;render();}
+  function applyMobile(){document.body.classList.toggle('m',(st.view==='mob')||window.matchMedia('(max-width:760px)').matches);}
+  function setScenario(k){st.scenario=k;st.seg=SC[k].kundtyp;st.open=false;render();}
 
-  document.getElementById('variant').addEventListener('click',function(e){var b=e.target.closest('[data-variant]');if(b){st.variant=b.dataset.variant;st.step=1;st.open=false;render();}});
   document.getElementById('view').addEventListener('click',function(e){var b=e.target.closest('[data-view]');if(b){st.view=b.dataset.view;render();}});
   document.getElementById('scenario').addEventListener('change',function(e){setScenario(e.target.value);});
   window.addEventListener('resize',applyMobile);
-
   block.addEventListener('click',function(e){
     var sb=e.target.closest('[data-seg]'); if(sb){st.seg=sb.dataset.seg;render();return;}
-    var a=e.target.closest('[data-act]'); if(!a) return; var act=a.dataset.act;
-    if(act==='toggle'){st.open=!st.open;render();}
-    else if(act==='submitV2'||act==='submit1'){ if(validate(['namn','telefon','postnr','gdpr'])){st.step=2;render();} }
-    else if(act==='finish'){st.step=3;render();}
-    else if(act==='restart'){st.step=1;st.open=false;render();}
+    var a=e.target.closest('[data-act]'); if(!a) return;
+    if(a.dataset.act==='toggle'){st.open=!st.open;render();}
+    else if(a.dataset.act==='submit'){validate(['namn','telefon','postnr','gdpr']);}
   });
   function validate(ids){var ok=true,first=null;ids.forEach(function(id){var el=document.getElementById(id);if(!el)return;var f=el.closest('.fld'),bad=false;
     if(id==='gdpr')bad=!el.checked; else if(id==='postnr')bad=!/^\d{3}\s?\d{2}$/.test(el.value.trim());
     else if(id==='telefon')bad=el.value.replace(/[\s\-()]/g,'').replace(/^\+46/,'0').replace(/\D/g,'').length<7;
     else bad=el.value.trim().length<2;
-    var h=document.getElementById(id+'-h');
-    if(h&&id!=='gdpr')h.textContent=id==='namn'?'Skriv ditt namn, så vet vi vem vi pratar med.':id==='telefon'?'Skriv ditt telefonnummer, så kan vi nå dig.':id==='postnr'?'Postnummer ska vara fem siffror.':'';
+    var h=document.getElementById(id+'-h'); if(h&&id!=='gdpr')h.textContent=id==='namn'?'Skriv ditt namn, så vet vi vem vi pratar med.':id==='telefon'?'Skriv ditt telefonnummer, så kan vi nå dig.':id==='postnr'?'Postnummer ska vara fem siffror.':'';
     if(f)f.classList.toggle('err',bad); el.setAttribute('aria-invalid',bad?'true':'false'); if(bad){ok=false;if(!first)first=el;}});
     if(first)first.focus(); return ok;}
   render();
