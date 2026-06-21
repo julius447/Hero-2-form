@@ -3,207 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ampy offertformulär — per-sida-resolver (demo)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Ampy offertformulär — granskning (per-sida-resolver)</title>
 <style>
-:root{--mid:#090b32;--sea:#5eb1bf;--neon1:#55ff9a;--neon2:#00ffda;--crystal:#b6f2ff;--lightblue:#bfe9fb;--teal:#00a991;--ink:#1e1e1e;--charcoal:#333;--gray:#b2b2b2;--white:#fff}
 *{box-sizing:border-box}
-html,body{margin:0}
-body{font-family:'Outfit',system-ui,sans-serif;background:#0a0c1e;color:var(--ink)}
-.bar{position:sticky;top:0;z-index:30;background:#11132c;border-bottom:1px solid rgba(255,255,255,.08);padding:10px 16px;font-size:13px;color:#cfd3e6}
-.barrow{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
-.bar .lab{color:#7e85a8;font-size:12px}
-.bar input.url{font-family:inherit;font-size:13px;border:1px solid rgba(255,255,255,.14);background:#0a0c1e;color:#fff;border-radius:8px;padding:7px 12px;width:280px}
-.bar button{font-family:inherit;font-size:12.5px;border:1px solid rgba(255,255,255,.12);background:#181b38;color:#cfd3e6;border-radius:8px;padding:6px 10px;cursor:pointer}
-.bar button.act{background:#fff;color:#11132c;border-color:transparent;font-weight:500}
-.bar .grp{display:flex;gap:4px;background:#0a0c1e;padding:4px;border-radius:10px}
-.quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.quick button{background:#181b38;color:#aeb4d6}
-.dbg{margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#7fe9d3;background:#0a0c1e;border:1px solid rgba(127,233,211,.25);border-radius:8px;padding:8px 10px;white-space:pre-wrap}
-.wrap{padding:32px 24px}
-.ctxnote{max-width:1180px;margin:0 auto 12px;font-size:12px;color:#6b7299}
-.block{max-width:1180px;margin:0 auto;background:var(--mid);border-radius:24px;padding:36px 44px 40px;position:relative;overflow:hidden;background-image:radial-gradient(80% 120% at 92% 10%, #14224a 0%, rgba(20,34,74,0) 55%)}
-.crumb{font-size:14px;color:rgba(255,255,255,.55);margin-bottom:26px}
-.crumb b{color:rgba(255,255,255,.8);font-weight:400}
-.hero{display:flex;gap:44px;align-items:center}
-.left{flex:1 1 0;min-width:0;color:var(--white)}
-.left .eb{color:#7fe9d3;font-size:15px;font-weight:500;margin:0 0 12px}
-.left h1{font-size:38px;line-height:1.15;font-weight:500;margin:0 0 16px}
-.left p{font-size:17px;line-height:1.5;font-weight:300;color:rgba(255,255,255,.82);margin:0 0 24px;max-width:44ch}
-.left .ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
-.left .ctas a{display:flex;align-items:center;gap:10px;height:54px;padding:0 22px;border-radius:16px;font-size:16px;font-weight:500;text-decoration:none}
-.left .ctas .c1{background:linear-gradient(282.84deg,var(--neon1),var(--neon2));color:var(--ink)}
-.left .ctas .c2{background:var(--crystal);color:var(--ink)}
-.left .rate{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--white)}
-.left .rate .g{width:26px;height:26px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4285f4;font-size:15px}
-.left .rate .st{color:#7fe9d3;letter-spacing:2px}
-.formcol{flex:0 0 470px;width:470px}
-.card{position:relative;border-radius:27px;padding:28px;color:var(--white);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);box-shadow:0 0 38px rgba(181,181,181,.14)}
-.card::before{content:"";position:absolute;inset:0;border-radius:27px;background:linear-gradient(156.51deg,#090B32 -33%,#5EB1BF 111%);opacity:.76;z-index:0}
-.card>*{position:relative;z-index:1}
-.noform{background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.3);border-radius:20px;padding:26px;color:rgba(255,255,255,.85);font-size:15px;line-height:1.5}
-.noform b{color:#fff;font-weight:500}
-.title{font-size:26px;line-height:1.25;font-weight:400;margin:0;white-space:nowrap}
-.subtitle{font-size:15px;line-height:1.3;font-weight:300;color:var(--white);margin:5px 0 0;opacity:.9}
-form{margin:0}
-.group{margin-top:16px}
-.fld{margin-top:10px}
-.fld:first-child{margin-top:0}
-.row2{display:flex;gap:10px;margin-top:10px}
-.row2 .fld{flex:1;margin-top:0;min-width:0}
-label.l{display:block;font-size:14px;line-height:18px;font-weight:400;color:var(--white);margin:0 0 6px}
-label.l .opt{opacity:.7}
-.inp{width:100%;height:48px;border:0;border-radius:14px;background:var(--white);color:var(--charcoal);font-family:inherit;font-size:17px;font-weight:400;padding:0 16px;outline:none;transition:box-shadow .15s}
-textarea.inp{height:78px;padding:12px 16px;resize:none;line-height:1.4}
-select.inp{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' stroke='%23333333' stroke-width='1.6'><path d='M5 8l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 15px center}
-.inp:focus{box-shadow:0 0 0 3px rgba(0,169,145,.5)}
-.seg{display:flex;gap:12px}
-.seg button{flex:1;height:44px;border:0;border-radius:14px;background:var(--white);color:var(--ink);font-family:inherit;font-size:17px;font-weight:400;cursor:pointer;transition:.15s}
-.seg button[aria-checked="true"]{background:var(--lightblue);font-weight:500}
-.gchip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px;font-size:15px;color:var(--white)}
-.gchip .gk{opacity:.75;font-weight:300}
-.gchip .ic{width:18px;height:18px;color:#7fe9d3;flex:none}
-.consent{display:flex;gap:10px;align-items:flex-start;margin-top:14px;cursor:pointer}
-.consent input{appearance:none;flex:0 0 21px;width:21px;height:21px;margin:0;border:1.5px solid rgba(255,255,255,.5);border-radius:6px;background:rgba(255,255,255,.06);cursor:pointer;position:relative}
-.consent input:checked{background:var(--teal);border-color:var(--teal)}
-.consent input:checked::after{content:"";position:absolute;left:6.5px;top:3px;width:5px;height:9px;border:solid #042b24;border-width:0 2px 2px 0;transform:rotate(45deg)}
-.consent span{font-size:12.5px;line-height:1.45;color:var(--white);opacity:.82}
-.consent a{color:#7fe9d3}
-.btn{width:100%;height:52px;border:0;border-radius:14px;font-family:inherit;font-size:19px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:.18s;margin-top:18px}
-.btn-primary{background:linear-gradient(282.84deg,var(--neon1) 20%,var(--neon2) 86%);color:var(--ink)}
-.disc{margin-top:14px}
-.disc>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:46px;padding:0 16px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.32);border-radius:14px;color:var(--white);font-family:inherit;font-size:15px;font-weight:400;cursor:pointer}
-.disc[data-open="false"] .disc-body{display:none}
-.disc-body{padding-top:4px}
-.upload{display:flex;align-items:center;justify-content:center;gap:9px;height:58px;border:1.5px dashed rgba(255,255,255,.34);border-radius:14px;color:var(--white);opacity:.7;font-size:14px;margin-top:6px}
-.reqtag{font-size:12px;color:#7fe9d3;opacity:.9}
-svg.ic{display:block}
-.m .wrap{padding:0}
-.m .ctxnote{display:none}
-.m .block{max-width:none;border-radius:0;padding:18px 14px 28px;background:#0a0c1e;background-image:none}
-.m .crumb,.m .left{display:none}
-.m .hero{display:block}
-.m .formcol{flex:none;width:100%;max-width:460px;margin:0 auto}
-.m .card{padding:24px 20px;border-radius:22px}
-.m .title{font-size:24px;white-space:normal;line-height:1.2}
-.m .row2{flex-direction:column;gap:0}
-.m .row2 .fld{margin-top:10px}
-.m .inp{height:52px}
-.m .btn{height:54px}
+html,body{margin:0;background:#0a0c1e;font-family:system-ui,-apple-system,sans-serif;color:#cfd3e6}
+.bar{position:sticky;top:0;z-index:5;background:#11132c;border-bottom:1px solid rgba(255,255,255,.08);padding:12px 18px}
+.row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.lab{color:#7e85a8;font-size:12px}
+input.url{font:14px system-ui;border:1px solid rgba(255,255,255,.16);background:#0a0c1e;color:#fff;border-radius:8px;padding:8px 12px;width:300px}
+button{font:13px system-ui;border:1px solid rgba(255,255,255,.12);background:#181b38;color:#cfd3e6;border-radius:8px;padding:7px 12px;cursor:pointer}
+button.act{background:#fff;color:#11132c;border-color:transparent;font-weight:600}
+.grp{display:flex;gap:4px;background:#0a0c1e;padding:4px;border-radius:10px}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.quick button{background:#181b38;color:#aeb4d6;font-size:12.5px}
+.note{font-size:12px;color:#6b7299;margin:9px 0 0}
+.note code{color:#7fe9d3}
+.stage{display:flex;justify-content:center;padding:18px}
+iframe{width:100%;max-width:1000px;height:840px;border:1px solid rgba(255,255,255,.10);border-radius:16px;background:#0a0c1e}
+.stage.mob iframe{max-width:390px}
 </style>
 </head>
 <body>
 <div class="bar">
-  <div class="barrow">
-    <span class="lab">URL:</span>
+  <div class="row">
+    <span class="lab">URL-path:</span>
     <input class="url" id="urlpath" value="/laddbox/nacka">
     <button id="go">Testa</button>
     <span class="lab">Vy:</span>
-    <div class="grp" id="view"><button data-view="desktop">Desktop</button><button data-view="mob">Mobil</button></div>
+    <div class="grp" id="view"><button data-view="desktop" class="act">Desktop</button><button data-view="mob">Mobil</button></div>
   </div>
   <div class="quick" id="quick"></div>
-  <div class="dbg" id="dbg"></div>
+  <p class="note">Granskningsharness — iframen laddar <code>bricks/ampy-offert-form.html</code> (PRODUKTIONSKODEN) med vald path. Skriv valfri Ampy-path eller välj nedan. Mobil-vyn smalnar iframen så formulärets riktiga <code>@media</code> slår in.</p>
 </div>
-<div class="wrap">
-  <p class="ctxnote">Resolver-demo: skriv vilken Ampy-path som helst (eller välj en snabbknapp) — formuläret konfigurerar sig per sida. Hero-blocket = befintlig kontext. På mobil visas enbart formuläret.</p>
-  <div class="block" id="block"></div>
+<div class="stage" id="stage">
+  <iframe id="frame" title="Ampy offertformulär" src="bricks/ampy-offert-form.html?path=%2Fladdbox%2Fnacka"></iframe>
 </div>
 <script>
 (function(){
-  var PRIVAT_OPTS=['Elinstallation','Belysning','Kök och badrum','Laddbox','Energi & effekt','Elfel','Annat'];
-  var ORG_OPTS=['Större elinstallation','Belysning','Laddbox','Service & underhåll','Elbesiktning','Energi & effekt','Elfel','Annat'];
-  var SERVICE={vitvaror:'Vitvaror',utomhusbelysning:'Utomhusbelysning',strombrytare:'Strömbrytare','ugn-spis':'Ugn & spis',spotlights:'Spotlights','smarta-hem':'Smarta hem',luftvarmepump:'Luftvärmepump',lastbalansering:'Lastbalansering',kok:'El i kök',koksrenovering:'Köksrenovering',inomhusbelysning:'Inomhusbelysning',jordfelsbrytare:'Jordfelsbrytare',glodlampa:'Glödlampor',golvvarme:'Golvvärme','felsokning-av-el':'Felsökning av el',elrenovering:'Elrenovering',elcentral:'Elcentral',elbesiktning:'Elbesiktning',belysning:'Belysning',badrumsrenovering:'Badrumsrenovering',armatur:'Armatur',badrum:'El i badrum'};
-  var EFX={
-    villor:{kundtyp:'privat',label:'el till din villa',vertical:'service',opts:PRIVAT_OPTS},
-    radhus:{kundtyp:'privat',label:'el till ditt radhus',vertical:'service',opts:PRIVAT_OPTS},
-    restauranger:{kundtyp:'foretag',label:'el till er restaurang',vertical:'foretag_brf',opts:['Storkök / fläkt / trefas','Större elinstallation','Belysning','Service & underhåll','Elfel','Laddbox','Annat']},
-    hotell:{kundtyp:'foretag',label:'el till ert hotell',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Laddbox','Service & underhåll','Energi & effekt','Elbesiktning','Elfel','Annat']},
-    kontor:{kundtyp:'foretag',label:'el till ert kontor',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Laddbox','Service & underhåll','Elfel','Annat']},
-    butik:{kundtyp:'foretag',label:'el till er butik',vertical:'foretag_brf',opts:['Belysning','Större elinstallation','Service & underhåll','Laddbox','Elfel','Annat']},
-    kommuner:{kundtyp:'foretag',label:'el till er kommun',vertical:'foretag_brf',orgLabel:'Förvaltning eller enhet',opts:['Större elinstallation','Belysning','Elbesiktning','Laddbox','Service & underhåll','Energi & effekt','Elfel','Annat']},
-    idrottshallar:{kundtyp:'foretag',label:'el till er idrottshall',vertical:'foretag_brf',orgLabel:'Verksamhetens namn',opts:['Större elinstallation','Belysning','Energi & effekt','Service & underhåll','Elbesiktning','Elfel','Annat']},
-    foretag:{kundtyp:'foretag',label:'el till ert företag',vertical:'foretag_brf',opts:ORG_OPTS},
-    byggforetag:{kundtyp:'foretag',label:'el i era byggprojekt',vertical:'foretag_brf',opts:['Större elinstallation','Elbesiktning','Belysning','Service & underhåll','Elfel','Annat']},
-    entreprenad:{kundtyp:'foretag',label:'el i ert entreprenaduppdrag',vertical:'foretag_brf',opts:['Större elinstallation','Elbesiktning','Belysning','Laddbox','Service & underhåll','Annat']},
-    bostadsrattsforening:{kundtyp:'brf',label:'el till er förening',vertical:'foretag_brf',opts:['Laddbox','Större elinstallation','Belysning','Elbesiktning','Service & underhåll','Energi & effekt','Elfel','Annat']},
-    tredjepartsinstallationer:{kundtyp:'foretag',label:'tredjepartsinstallation',vertical:'foretag_brf',opts:['Större elinstallation','Laddbox','Belysning','Service & underhåll','Elbesiktning','Elfel','Annat']}
-  };
-  var SV_ORT={nacka:'Nacka',sodertalje:'Södertälje',sollentuna:'Sollentuna',taby:'Täby',jarfalla:'Järfälla',vaxholm:'Vaxholm',varmdo:'Värmdö',vallingby:'Vällingby',huddinge:'Huddinge',solna:'Solna',stockholm:'Stockholm','upplands-vasby':'Upplands Väsby',tyreso:'Tyresö',lidingo:'Lidingö',osteraker:'Österåker',bromma:'Bromma',sundbyberg:'Sundbyberg'};
-  var HERO={service:{eb:'Professionell elservice',h2:'El av behörig elektriker',crumb:'Elservice'},laddbox:{eb:'Laddbox',h2:'Laddbox med installation',crumb:'Laddbox'},foretag_brf:{eb:'För verksamheter',h2:'El till er verksamhet',crumb:'Elektriker för'},oklart:{eb:'Ampy',h2:'Behörig elektriker',crumb:'Ampy'}};
-  var UTIL=['/offert','/kopvillkor','/integritetspolicy','/cookiepolicy','/thank-you','/nyheter','/tillganglighet','/om-oss'];
-  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-  function ortName(slug){return SV_ORT[slug]||slug.split('-').map(cap).join(' ');}
-
-  function resolve(p){
-    p=('/'+String(p).trim().replace(/^https?:\/\/[^/]+/,'').replace(/^\/+|\/+$/g,'')).replace(/\/+$/,'');
-    if(p==='')p='/';
-    if(/^\/eljour\//.test(p)) return {render:false,reason:'Eljour = telefon-först-block (Ring 010-265 79 79 + "112 först"), inget offertformulär.',vertical:'-'};
-    if(/^\/solcellsbatterier(\/|$)/.test(p)||/^\/laddboxar\//.test(p)||/^\/batterilagring(\/|$)/.test(p)) return {render:false,reason:'Produktsida — annan flow (CRM Form 2), inget offertformulär här.',vertical:'-'};
-    if(UTIL.indexOf(p)>-1) return {render:false,reason:'Utility-sida — inget formulär.',vertical:'-'};
-    var m;
-    if(m=p.match(/^\/elservice\/([^/]+)$/)){var lbl=SERVICE[m[1]]; if(lbl) return {render:true,kundtyp:'privat',tjanst:lbl,tjanstLocked:true,vertical:'service',source:p};}
-    if(p==='/elservice') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
-    var efx=EFX[p.replace(/^\//,'')]; if(efx) return {render:true,kundtyp:efx.kundtyp,kundtypLocked:false,ask:true,opts:efx.opts,label:efx.label,orgLabel:efx.orgLabel,vertical:efx.vertical,source:p};
-    if(m=p.match(/^\/laddbox\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,ort:ortName(m[1]),vertical:'laddbox',source:p};
-    if(m=p.match(/^\/elinstallation\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,ort:ortName(m[1]),vertical:'service',source:p};
-    if(m=p.match(/^\/elektriker\/([^/]+)$/)) return {render:true,kundtyp:'privat',ask:true,ort:ortName(m[1]),vertical:'service',source:p};
-    if(p==='/elektriker') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
-    if(p==='/laddbox') return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,vertical:'laddbox',source:p};
-    if(p==='/elinstallation') return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,vertical:'service',source:p};
-    return {render:true,kundtyp:'privat',ask:true,vertical:'oklart',source:p};
-  }
-
-  var SEG={privat:'Privat',brf:'BRF',foretag:'Företag'};
-  var st={path:'/laddbox/nacka',view:'desktop',seg:'privat',open:false,cfg:null};
-  var block=document.getElementById('block'),dbg=document.getElementById('dbg');
-  var QUICK=['/laddbox/nacka','/elservice/golvvarme','/elservice/elcentral','/elektriker/sodertalje','/elinstallation/taby','/restauranger','/bostadsrattsforening','/villor','/kommuner','/elektriker','/eljour/solna','/solcellsbatterier/sonnen'];
-
-  function fld(label,id,type,opt,req){var im=type==='tel'?' inputmode="tel"':(type==='num'?' inputmode="numeric"':'');var t=type==='num'?'text':type;
-    return '<div class="fld"><label class="l" for="'+id+'">'+label+(opt?' <span class="opt">(valfritt)</span>':'')+(req?' <span class="reqtag">krävs</span>':'')+'</label><input class="inp" id="'+id+'" type="'+t+'"'+im+'></div>';}
-  function seg(){return '<div class="seg" role="radiogroup" aria-label="Kundtyp">'+['privat','brf','foretag'].map(function(k){return '<button type="button" role="radio" data-seg="'+k+'" aria-checked="'+(st.seg===k)+'">'+SEG[k]+'</button>';}).join('')+'</div>';}
-  function orgFields(cfg){ if(st.seg==='privat') return ''; var nameLabel=st.seg==='brf'?'Föreningens namn':(cfg.orgLabel||'Företagsnamn');
-    return fld(nameLabel,'orgname','text',false,true)+fld('Organisationsnummer','orgnr','num',false,true); }
-  function tjanstBlock(cfg){
-    var chip = cfg.tjanstLocked ? ('Gäller: '+cfg.tjanst+(cfg.ort?' · '+cfg.ort:'')) : cfg.label ? ('Gäller: '+cfg.label) : cfg.ort ? ('Elektriker i '+cfg.ort) : null;
-    var html = chip ? '<div class="gchip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span>'+chip+'</span></div>' : '';
-    if(cfg.ask){ var opts=cfg.opts||(st.seg==='privat'?PRIVAT_OPTS:ORG_OPTS);
-      html+='<div class="fld"><label class="l" for="tj">Vad gäller arbetet?</label><select class="inp" id="tj">'+opts.map(function(o){return '<option>'+o+'</option>';}).join('')+'</select></div>'; }
-    return html;
-  }
-  function enrich(){return fld('E-post','epost','email',true)+'<div class="fld"><label class="l">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="beskriv"></textarea></div>'+fld('Adress','adress','text',true)+'<div class="fld"><label class="l">Tidsram <span class="opt">(valfritt)</span></label><select class="inp"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l">Bilder <span class="opt">(valfritt)</span></label><div class="upload">Ladda upp bilder</div></div>';}
-  function consent(){return '<label class="consent"><input type="checkbox"><span>Jag godkänner att Ampy behandlar mina uppgifter, enligt <a href="https://ampy.se/integritetspolicy" target="_blank" rel="noopener">integritetspolicyn</a>.</span></label>';}
-  function formCard(cfg){
-    return '<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Tjänsten är helt gratis och du binder dig inte!</p>'+
-      '<form novalidate><div class="group">'+seg()+'</div>'+
-      '<div class="group">'+tjanstBlock(cfg)+orgFields(cfg)+fld('Namn','namn','text',false)+'<div class="row2">'+fld('Telefon','telefon','tel',false)+fld('Postnummer','postnr','num',false)+'</div></div>'+
-      '<div class="disc" data-open="'+st.open+'"><button type="button" data-act="toggle">Fler detaljer (valfritt)<svg class="chev ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l5 5 5-5"/></svg></button><div class="disc-body"><div class="group">'+enrich()+'</div></div></div>'+
-      consent()+'<button type="button" class="btn btn-primary" data-act="submit">Boka rådgivning</button></form></div>';
-  }
-  function noformCard(cfg){return '<div class="noform"><b>Inget offertformulär på den här sidan.</b><br>'+cfg.reason+'</div>';}
-  function left(cfg){var h=HERO[cfg.vertical]||HERO.oklart;var eb=cfg.ort?(h.eb+' i '+cfg.ort):h.eb;
-    return '<div class="left"><p class="eb">'+eb+'</p><h1>'+h.h2+'</h1><p>Säkra ditt hem med behörig elektriker. Detta hero-block är befintlig kontext för att visa passform.</p>'+
-      '<div class="ctas"><a class="c1" href="#" onclick="return false">Kontakta oss</a><a class="c2" href="#" onclick="return false">010-265 79 79</a></div>'+
-      '<div class="rate"><span class="g">G</span><span>5.0</span><span class="st">★★★★★</span></div></div>';}
-  function crumbOf(cfg){var h=HERO[cfg.vertical]||HERO.oklart;return h.crumb;}
-
-  function render(){
-    var cfg=resolve(st.path); st.cfg=cfg;
-    block.innerHTML='<p class="crumb">Hem <b>›</b> '+crumbOf(cfg)+'</p><div class="hero">'+left(cfg)+'<div class="formcol">'+(cfg.render?formCard(cfg):noformCard(cfg))+'</div></div>';
-    dbg.textContent='resolve("'+cfg.source||st.path+'") → '+JSON.stringify({render:cfg.render,vertical:cfg.vertical,kundtyp:cfg.render?st.seg:'-',kundtypLåst:!!cfg.kundtypLocked,tjänst:cfg.tjanstLocked?cfg.tjanst:(cfg.ask?'FRÅGAS':'-'),ort:cfg.ort||'-',orgNrKrävs:(cfg.render&&st.seg!=='privat')});
-    mark('view','view',st.view); document.body.classList.toggle('m',st.view==='mob');
-  }
-  function mark(id,attr,val){var g=document.getElementById(id);Array.prototype.forEach.call(g.children,function(b){if(b.dataset[attr]!==undefined)b.classList.toggle('act',b.dataset[attr]===val);});}
-  function setPath(p){st.path=p;var c=resolve(p);st.seg=c.render?c.kundtyp:'privat';st.open=false;document.getElementById('urlpath').value=p;render();}
-
-  document.getElementById('go').addEventListener('click',function(){setPath(document.getElementById('urlpath').value);});
-  document.getElementById('urlpath').addEventListener('keydown',function(e){if(e.key==='Enter')setPath(this.value);});
-  document.getElementById('view').addEventListener('click',function(e){var b=e.target.closest('[data-view]');if(b){st.view=b.dataset.view;render();}});
-  var q=document.getElementById('quick'); QUICK.forEach(function(u){var b=document.createElement('button');b.textContent=u;b.onclick=function(){setPath(u);};q.appendChild(b);});
-  block.addEventListener('click',function(e){var sb=e.target.closest('[data-seg]');if(sb){st.seg=sb.dataset.seg;render();return;}var a=e.target.closest('[data-act]');if(a&&a.dataset.act==='toggle'){st.open=!st.open;render();}});
-
-  setPath('/laddbox/nacka');
+  var QUICK=['/laddbox/nacka','/elservice/golvvarme','/elservice/elcentral','/elektriker/sodertalje','/elinstallation/taby','/restauranger','/hotell','/bostadsrattsforening','/kommuner','/villor','/elektriker','/eljour/solna','/solcellsbatterier/sonnen'];
+  var frame=document.getElementById('frame'),inp=document.getElementById('urlpath'),stage=document.getElementById('stage');
+  function load(p){p=p.trim();inp.value=p;frame.src='bricks/ampy-offert-form.html?path='+encodeURIComponent(p);}
+  document.getElementById('go').addEventListener('click',function(){load(inp.value);});
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')load(inp.value);});
+  var q=document.getElementById('quick');QUICK.forEach(function(u){var b=document.createElement('button');b.textContent=u;b.onclick=function(){load(u);};q.appendChild(b);});
+  document.getElementById('view').addEventListener('click',function(e){var b=e.target.closest('[data-view]');if(!b)return;stage.classList.toggle('mob',b.dataset.view==='mob');Array.prototype.forEach.call(this.children,function(x){x.classList.toggle('act',x===b);});});
 })();
 </script>
 </body>

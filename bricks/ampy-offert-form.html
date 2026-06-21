@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ampy offertformulär — produktionskomponent</title>
+<!--
+  ===========================================================================
+  AMPY OFFERTFORMULÄR — PRODUKTIONSKOMPONENT (WordPress / Bricks)
+  ===========================================================================
+  Tre delar att placera i Bricks:
+   (1) <style> nedan  -> Bricks "Custom CSS" (scopat under .aof = global class).
+   (2) <div class="aof" data-ampy-path="{{post_url}}">  -> ett Bricks element/template
+       i Hero 2-blocket. Sätt data-ampy-path via Bricks DYNAMIC DATA (post-URL/slug)
+       så resolvern vet sidan utan flash.
+   (3) <script> nedan -> ETT globalt Bricks Code-element (sitewide).
+  SELF-HOSTA OUTFIT: aktivera @font-face nedan med temats woff2 och TA BORT Google Fonts-länken
+  (PREVIEW-ONLY). ENDPOINT + PREVIEW-flaggan + SOURCE_FORM måste sättas av dev (script-toppen).
+  ===========================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- PREVIEW ONLY — ta bort i produktion, self-hosta Outfit via @font-face nedan -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* @font-face{font-family:'Outfit';src:url('/wp-content/themes/ampy/fonts/Outfit.woff2') format('woff2-variations');font-weight:300 600;font-display:swap} */
+:root{--mid:#090b32;--sea:#5eb1bf;--neon1:#55ff9a;--neon2:#00ffda;--crystal:#b6f2ff;--lightblue:#bfe9fb;--teal:#00a991;--ink:#1e1e1e;--charcoal:#333;--gray:#b2b2b2;--white:#fff}
+.aof-host{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px;background:radial-gradient(120% 90% at 50% 0%,#16203f 0%,#0a0c1e 62%)}
+.aof *{box-sizing:border-box}
+.aof{width:100%;max-width:470px;font-family:'Outfit',system-ui,sans-serif}
+.aof .card{position:relative;border-radius:27px;padding:28px;color:var(--white);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);box-shadow:0 0 38px rgba(181,181,181,.14)}
+.aof .card::before{content:"";position:absolute;inset:0;border-radius:27px;background:linear-gradient(156.51deg,#090B32 -33%,#5EB1BF 111%);opacity:.76;z-index:0}
+.aof .card>*{position:relative;z-index:1}
+.aof .title{font-size:26px;line-height:1.25;font-weight:400;margin:0;white-space:nowrap}
+.aof .subtitle{font-size:15px;line-height:1.3;font-weight:300;color:var(--white);margin:5px 0 0;opacity:.9}
+.aof form{margin:0}
+.aof .group{margin-top:16px}
+.aof .fld{margin-top:10px}
+.aof .fld:first-child{margin-top:0}
+.aof .row2{display:flex;gap:10px;margin-top:10px}
+.aof .row2 .fld{flex:1;margin-top:0;min-width:0}
+.aof label.l{display:block;font-size:14px;line-height:18px;font-weight:400;color:var(--white);margin:0 0 6px}
+.aof label.l .opt{opacity:.7}
+.aof label.l .req{font-size:12px;color:#7fe9d3;opacity:.9}
+.aof .inp{width:100%;height:48px;border:0;border-radius:14px;background:var(--white);color:var(--charcoal);font-family:inherit;font-size:17px;font-weight:400;padding:0 16px;outline:none;transition:box-shadow .15s}
+.aof textarea.inp{height:78px;padding:12px 16px;resize:none;line-height:1.4}
+.aof select.inp{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' stroke='%23333333' stroke-width='1.6'><path d='M5 8l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 15px center}
+.aof .inp:focus{box-shadow:0 0 0 3px rgba(0,169,145,.5)}
+.aof .fld.err .inp{box-shadow:0 0 0 2px var(--teal)}
+.aof .help{display:none;font-size:13px;line-height:1.35;color:#bff3e6;margin:7px 2px 0}
+.aof .fld.err .help{display:block}
+.aof .seg{display:flex;gap:12px}
+.aof .seg button{flex:1;height:44px;border:0;border-radius:14px;background:var(--white);color:var(--ink);font-family:inherit;font-size:17px;font-weight:400;cursor:pointer;transition:.15s}
+.aof .seg button[aria-checked="true"]{background:var(--lightblue);font-weight:500}
+.aof .gchip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px;font-size:15px;color:var(--white)}
+.aof .gchip .ic{width:18px;height:18px;color:#7fe9d3;flex:none}
+.aof .consent{display:flex;gap:10px;align-items:flex-start;margin-top:14px;cursor:pointer}
+.aof .consent input{appearance:none;flex:0 0 21px;width:21px;height:21px;margin:0;border:1.5px solid rgba(255,255,255,.5);border-radius:6px;background:rgba(255,255,255,.06);cursor:pointer;position:relative}
+.aof .consent input:checked{background:var(--teal);border-color:var(--teal)}
+.aof .consent input:checked::after{content:"";position:absolute;left:6.5px;top:3px;width:5px;height:9px;border:solid #042b24;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.aof .consent span{font-size:12.5px;line-height:1.45;color:var(--white);opacity:.82}
+.aof .consent a{color:#7fe9d3}
+.aof .btn{width:100%;height:52px;border:0;border-radius:14px;font-family:inherit;font-size:19px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:.18s;margin-top:18px}
+.aof .btn-primary{background:linear-gradient(282.84deg,var(--neon1) 20%,var(--neon2) 86%);color:var(--ink)}
+.aof .disc{margin-top:14px}
+.aof .disc>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:46px;padding:0 16px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.32);border-radius:14px;color:var(--white);font-family:inherit;font-size:15px;font-weight:400;cursor:pointer}
+.aof .disc[data-open="false"] .disc-body{display:none}
+.aof .disc-body{padding-top:4px}
+.aof .upload{display:flex;align-items:center;justify-content:center;gap:9px;height:58px;border:1.5px dashed rgba(255,255,255,.34);border-radius:14px;color:var(--white);opacity:.7;font-size:14px;margin-top:6px}
+.aof .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.aof .done{text-align:center;padding:8px 4px}
+.aof .done .ok{width:56px;height:56px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.aof .done .ok svg{width:28px;height:28px;stroke:#042b24}
+.aof .done h2{font-size:23px;font-weight:400;margin:0 0 8px}
+.aof .done p{font-size:15px;line-height:1.5;font-weight:300;color:var(--white);opacity:.85;margin:0}
+.aof .payload{margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#7fe9d3;background:rgba(0,0,0,.25);border:1px solid rgba(127,233,211,.25);border-radius:10px;padding:10px;white-space:pre-wrap;text-align:left}
+.aof svg.ic{display:block}
+@media (max-width:600px){
+  .aof-host{padding:0;align-items:flex-start;background:#0a0c1e}
+  .aof{max-width:none}
+  .aof .card{padding:24px 20px;border-radius:22px}
+  .aof .title{font-size:24px;white-space:normal;line-height:1.2}
+  .aof .row2{flex-direction:column;gap:0}
+  .aof .row2 .fld{margin-top:10px}
+  .aof .inp{height:52px}
+  .aof .btn{height:54px}
+}
+</style>
+</head>
+<body>
+<div class="aof-host">
+  <div class="aof" id="ampy-form-root" data-ampy-path=""></div>
+</div>
+<script>
+(function(){
+  /* ===== DEV-INSTÄLLNINGAR ===== */
+  var ENDPOINT='/wp-json/ampy/v1/lead';   /* TODO dev: bekräfta lead-endpoint */
+  var SOURCE_FORM=3;                        /* TODO dev: stäm av kod (1=Kontakta oss, 3=hero/multi) */
+  var PREVIEW=true;                         /* prod: sätt false. true = POSTar INTE, visar payload */
+
+  /* ===== TAXONOMI + MAPS (en diffbar källa) ===== */
+  var PRIVAT_OPTS=['Elinstallation','Belysning','Kök och badrum','Laddbox','Energi & effekt','Elfel','Annat'];
+  var ORG_OPTS=['Större elinstallation','Belysning','Laddbox','Service & underhåll','Elbesiktning','Energi & effekt','Elfel','Annat'];
+  var SERVICE={vitvaror:'Vitvaror',utomhusbelysning:'Utomhusbelysning',strombrytare:'Strömbrytare','ugn-spis':'Ugn & spis',spotlights:'Spotlights','smarta-hem':'Smarta hem',luftvarmepump:'Luftvärmepump',lastbalansering:'Lastbalansering',kok:'El i kök',koksrenovering:'Köksrenovering',inomhusbelysning:'Inomhusbelysning',jordfelsbrytare:'Jordfelsbrytare',glodlampa:'Glödlampor',golvvarme:'Golvvärme','felsokning-av-el':'Felsökning av el',elrenovering:'Elrenovering',elcentral:'Elcentral',elbesiktning:'Elbesiktning',belysning:'Belysning',badrumsrenovering:'Badrumsrenovering',armatur:'Armatur',badrum:'El i badrum'};
+  var EFX={
+    villor:{kundtyp:'privat',label:'el till din villa',vertical:'service',opts:PRIVAT_OPTS},
+    radhus:{kundtyp:'privat',label:'el till ditt radhus',vertical:'service',opts:PRIVAT_OPTS},
+    restauranger:{kundtyp:'foretag',label:'el till er restaurang',vertical:'foretag_brf',opts:['Storkök / fläkt / trefas','Större elinstallation','Belysning','Service & underhåll','Elfel','Laddbox','Annat']},
+    hotell:{kundtyp:'foretag',label:'el till ert hotell',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Laddbox','Service & underhåll','Energi & effekt','Elbesiktning','Elfel','Annat']},
+    kontor:{kundtyp:'foretag',label:'el till ert kontor',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Laddbox','Service & underhåll','Elfel','Annat']},
+    butik:{kundtyp:'foretag',label:'el till er butik',vertical:'foretag_brf',opts:['Belysning','Större elinstallation','Service & underhåll','Laddbox','Elfel','Annat']},
+    kommuner:{kundtyp:'foretag',label:'el till er kommun',vertical:'foretag_brf',orgLabel:'Förvaltning eller enhet',opts:['Större elinstallation','Belysning','Elbesiktning','Laddbox','Service & underhåll','Energi & effekt','Elfel','Annat']},
+    idrottshallar:{kundtyp:'foretag',label:'el till er idrottshall',vertical:'foretag_brf',orgLabel:'Verksamhetens namn',opts:['Större elinstallation','Belysning','Energi & effekt','Service & underhåll','Elbesiktning','Elfel','Annat']},
+    foretag:{kundtyp:'foretag',label:'el till ert företag',vertical:'foretag_brf',opts:ORG_OPTS},
+    byggforetag:{kundtyp:'foretag',label:'el i era byggprojekt',vertical:'foretag_brf',opts:['Större elinstallation','Elbesiktning','Belysning','Service & underhåll','Elfel','Annat']},
+    entreprenad:{kundtyp:'foretag',label:'el i ert entreprenaduppdrag',vertical:'foretag_brf',opts:['Större elinstallation','Elbesiktning','Belysning','Laddbox','Service & underhåll','Annat']},
+    bostadsrattsforening:{kundtyp:'brf',label:'el till er förening',vertical:'foretag_brf',orgLabel:'Föreningens namn',opts:['Laddbox','Större elinstallation','Belysning','Elbesiktning','Service & underhåll','Energi & effekt','Elfel','Annat']},
+    tredjepartsinstallationer:{kundtyp:'foretag',label:'tredjepartsinstallation',vertical:'foretag_brf',opts:['Större elinstallation','Laddbox','Belysning','Service & underhåll','Elbesiktning','Elfel','Annat']}
+  };
+  var SV_ORT={nacka:'Nacka',sodertalje:'Södertälje',sollentuna:'Sollentuna',taby:'Täby',jarfalla:'Järfälla',vaxholm:'Vaxholm',varmdo:'Värmdö',vallingby:'Vällingby',huddinge:'Huddinge',solna:'Solna',stockholm:'Stockholm','upplands-vasby':'Upplands Väsby',tyreso:'Tyresö',lidingo:'Lidingö',osteraker:'Österåker',bromma:'Bromma',sundbyberg:'Sundbyberg'};
+  var BRADSKA={'Inom 24 timmar':'24h','Inom 72 timmar':'72h','Om 1-2 veckor':'1_2v','Flexibelt':'flexibel'};
+  var UTIL=['/offert','/kopvillkor','/integritetspolicy','/cookiepolicy','/thank-you','/nyheter','/tillganglighet','/om-oss'];
+  function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+  function ortName(s){return SV_ORT[s]||s.split('-').map(cap).join(' ')}
+
+  /* ===== RESOLVER ===== */
+  function resolve(p){
+    p=('/'+String(p||'').trim().replace(/^https?:\/\/[^/]+/,'').replace(/[?#].*$/,'').replace(/^\/+|\/+$/g,''));
+    if(p==='/')p='/';
+    if(/^\/eljour\//.test(p)) return {render:false,reason:'Eljour = telefon-först-block (Ring 010-265 79 79), inget offertformulär.'};
+    if(/^\/solcellsbatterier(\/|$)/.test(p)||/^\/laddboxar\//.test(p)||/^\/batterilagring(\/|$)/.test(p)) return {render:false,reason:'Produktsida — annan flow (CRM Form 2).'};
+    if(UTIL.indexOf(p)>-1) return {render:false,reason:'Utility-sida — inget formulär.'};
+    var m;
+    if((m=p.match(/^\/elservice\/([^/]+)$/))&&SERVICE[m[1]]) return {render:true,kundtyp:'privat',tjanst:SERVICE[m[1]],tjanstLocked:true,vertical:'service',source:p};
+    if(p==='/elservice') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
+    var efx=EFX[p.replace(/^\//,'')]; if(efx) return {render:true,kundtyp:efx.kundtyp,ask:true,opts:efx.opts,label:efx.label,orgLabel:efx.orgLabel,vertical:efx.vertical,source:p};
+    if(m=p.match(/^\/laddbox\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,ort:ortName(m[1]),vertical:'laddbox',source:p};
+    if(m=p.match(/^\/elinstallation\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,ort:ortName(m[1]),vertical:'service',source:p};
+    if(m=p.match(/^\/elektriker\/([^/]+)$/)) return {render:true,kundtyp:'privat',ask:true,ort:ortName(m[1]),vertical:'service',source:p};
+    if(p==='/elektriker') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
+    if(p==='/laddbox') return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,vertical:'laddbox',source:p};
+    if(p==='/elinstallation') return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,vertical:'service',source:p};
+    return {render:true,kundtyp:'privat',ask:true,vertical:'oklart',source:p};
+  }
+
+  var SEG={privat:'Privat',brf:'BRF',foretag:'Företag'};
+  var root=document.getElementById('ampy-form-root');
+  var qs=new URLSearchParams(location.search);
+  var PATH=qs.get('path')||root.getAttribute('data-ampy-path')||location.pathname;
+  var st={seg:'privat',open:false,done:false,cfg:null,lastPayload:null};
+
+  function fld(label,id,type,opt,req){var im=type==='tel'?' inputmode="tel"':(type==='num'?' inputmode="numeric"':'');var t=type==='num'?'text':type;var ac=id==='namn'?'name':id==='telefon'?'tel':id==='postnr'?'postal-code':id==='epost'?'email':'off';
+    return '<div class="fld"><label class="l" for="aof-'+id+'">'+label+(opt?' <span class="opt">(valfritt)</span>':'')+(req?' <span class="req">krävs</span>':'')+'</label><input class="inp" id="aof-'+id+'" type="'+t+'"'+im+' autocomplete="'+ac+'"><p class="help" id="aof-'+id+'-h"></p></div>';}
+  function seg(){return '<div class="seg" role="radiogroup" aria-label="Kundtyp">'+['privat','brf','foretag'].map(function(k){return '<button type="button" role="radio" data-seg="'+k+'" aria-checked="'+(st.seg===k)+'">'+SEG[k]+'</button>';}).join('')+'</div>';}
+  function orgFields(cfg){if(st.seg==='privat')return '';var nm=st.seg==='brf'?(cfg.orgLabel||'Föreningens namn'):(cfg.orgLabel||'Företagsnamn');return fld(nm,'orgname','text',false,true)+fld('Organisationsnummer','orgnr','num',false,true);}
+  function tjanstBlock(cfg){
+    var chip=cfg.tjanstLocked?('Gäller: '+cfg.tjanst+(cfg.ort?' · '+cfg.ort:'')):cfg.label?('Gäller: '+cfg.label):cfg.ort?('Elektriker i '+cfg.ort):null;
+    var h=chip?'<div class="gchip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span>'+chip+'</span></div>':'';
+    if(cfg.ask){var o=cfg.opts||(st.seg==='privat'?PRIVAT_OPTS:ORG_OPTS);h+='<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj">'+o.map(function(x){return '<option>'+x+'</option>'}).join('')+'</select></div>';}
+    return h;
+  }
+  function enrich(){return fld('E-post','epost','email',true)+'<div class="fld"><label class="l" for="aof-beskriv">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="aof-beskriv"></textarea></div>'+fld('Adress','adress','text',true)+'<div class="fld"><label class="l" for="aof-tid">Tidsram <span class="opt">(valfritt)</span></label><select class="inp" id="aof-tid"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l">Bilder <span class="opt">(valfritt)</span></label><div class="upload">Ladda upp bilder</div></div>';}
+
+  function render(){
+    var cfg=resolve(PATH); st.cfg=cfg;
+    if(!cfg.render){root.innerHTML='<div class="card"><h1 class="title" style="white-space:normal;font-size:22px">Inget formulär här</h1><p class="subtitle">'+cfg.reason+'</p></div>';return;}
+    if(st.done){root.innerHTML='<div class="card"><div class="done"><div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></div><h2>Tack, vi har din förfrågan</h2><p>Vi hör av oss med ett förslag.</p></div>'+(PREVIEW&&st.lastPayload?'<div class="payload">PREVIEW — detta skulle POSTas till '+ENDPOINT+':\n'+st.lastPayload+'</div>':'')+'</div>';return;}
+    root.innerHTML='<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Tjänsten är helt gratis och du binder dig inte!</p>'+
+      '<form novalidate><div class="group">'+seg()+'</div>'+
+      '<div class="group">'+tjanstBlock(cfg)+orgFields(cfg)+fld('Namn','namn','text',false)+'<div class="row2">'+fld('Telefon','telefon','tel',false)+fld('Postnummer','postnr','num',false)+'</div></div>'+
+      '<div class="disc" data-open="'+st.open+'"><button type="button" data-act="toggle">Fler detaljer (valfritt)<svg class="chev ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l5 5 5-5"/></svg></button><div class="disc-body"><div class="group">'+enrich()+'</div></div></div>'+
+      '<label class="consent"><input type="checkbox" id="aof-gdpr"><span>Jag godkänner att Ampy behandlar mina uppgifter, enligt <a href="https://ampy.se/integritetspolicy" target="_blank" rel="noopener">integritetspolicyn</a>.</span></label><p class="help" id="aof-gdpr-h" style="margin-left:31px">Vi behöver ditt godkännande för att få kontakta dig.</p>'+
+      '<input type="text" class="hp" id="aof-company_url" tabindex="-1" autocomplete="off" aria-hidden="true">'+
+      '<button type="button" class="btn btn-primary" data-act="submit">Boka rådgivning</button></form></div>';
+  }
+
+  function val(id){var e=document.getElementById('aof-'+id);return e?e.value.trim():''}
+  function validate(){
+    var ids=['namn','telefon','postnr']; if(st.seg!=='privat')ids.push('orgname','orgnr');
+    var ok=true,first=null;
+    var MSG={namn:'Skriv ditt namn.',telefon:'Skriv ett telefonnummer vi kan nå dig på.',postnr:'Postnummer ska vara fem siffror.',orgname:'Fyll i namnet.',orgnr:'Org.nr ska vara tio siffror.'};
+    ids.forEach(function(id){var el=document.getElementById('aof-'+id);if(!el)return;var f=el.closest('.fld'),bad=false,v=el.value.trim();
+      if(id==='postnr')bad=!/^\d{3}\s?\d{2}$/.test(v);
+      else if(id==='telefon')bad=v.replace(/[\s\-()]/g,'').replace(/^\+46/,'0').replace(/\D/g,'').length<7;
+      else if(id==='orgnr')bad=v.replace(/\D/g,'').length<10;
+      else bad=v.length<2;
+      var h=document.getElementById('aof-'+id+'-h');if(h)h.textContent=bad?(MSG[id]||''):'';
+      f.classList.toggle('err',bad);if(bad){ok=false;if(!first)first=el;}});
+    var gd=document.getElementById('aof-gdpr'),gh=document.getElementById('aof-gdpr-h');
+    if(!gd.checked){ok=false;gh.style.display='block';if(!first)first=gd;}else{gh.style.display='none';}
+    return {ok:ok,first:first};
+  }
+  function buildPayload(){var cfg=st.cfg;var tjEl=document.getElementById('aof-tj');var tj=cfg.tjanstLocked?cfg.tjanst:(tjEl?tjEl.value:'');var tid=document.getElementById('aof-tid');
+    return {full_name:val('namn'),phone_e164:val('telefon'),postal_code:val('postnr'),email:val('epost')||null,org_number:(st.seg!=='privat'?val('orgnr'):null),org_name:(st.seg!=='privat'?val('orgname'):null),kundtyp:st.seg,vertical:cfg.vertical,tjanst_intresse:tj,bradska:(tid&&BRADSKA[tid.value])||null,beskrivning:val('beskriv')||null,street_address:val('adress')||null,kallsida:cfg.source,source:'bricks',source_form:SOURCE_FORM,consent:true};}
+  function submit(){
+    var v=validate(); if(!v.ok){if(v.first)v.first.focus();return;}
+    if(document.getElementById('aof-company_url').value) return; /* honeypot */
+    var payload=buildPayload(); st.lastPayload=JSON.stringify(payload,null,2);
+    if(PREVIEW){st.done=true;render();return;}
+    fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(){st.done=true;render();}).catch(function(){alert('Något gick fel. Ring oss på 010-265 79 79 så hjälper vi dig.');});
+  }
+  root.addEventListener('click',function(e){var sb=e.target.closest('[data-seg]');if(sb){st.seg=sb.dataset.seg;render();return;}var a=e.target.closest('[data-act]');if(!a)return;if(a.dataset.act==='toggle'){st.open=!st.open;render();}else if(a.dataset.act==='submit'){submit();}});
+  render();
+})();
+</script>
+</body>
+</html>
