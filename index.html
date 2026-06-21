@@ -114,7 +114,7 @@ svg.ic{display:block}
 (function(){
   var PRIVAT_OPTS=['Elinstallation','Belysning','Kök och badrum','Laddbox','Energi & effekt','Elfel','Annat'];
   var ORG_OPTS=['Större elinstallation','Belysning','Laddbox','Service & underhåll','Elbesiktning','Energi & effekt','Elfel','Annat'];
-  var SERVICE={vitvaror:'Vitvaror',utomhusbelysning:'Utomhusbelysning',strombrytare:'Strömbrytare','ugn-spis':'Ugn & spis',spotlights:'Spotlights','smarta-hem':'Smarta hem',luftvarmepump:'Luftvärmepump',lastbalansering:'Lastbalansering',kok:'El i kök',koksrenovering:'Köksrenovering',inomhusbelysning:'Inomhusbelysning',jordfelsbrytare:'Jordfelsbrytare',glodlampa:'Glödlampor',golvvarme:'Golvvärme','felsokning-av-el':'Felsökning av el',elrenovering:'Elrenovering',elcentral:'Byte av elcentral',elbesiktning:'Elbesiktning',belysning:'Belysning',badrumsrenovering:'Badrumsrenovering',armatur:'Armatur',badrum:'El i badrum'};
+  var SERVICE={vitvaror:'Vitvaror',utomhusbelysning:'Utomhusbelysning',strombrytare:'Strömbrytare','ugn-spis':'Ugn & spis',spotlights:'Spotlights','smarta-hem':'Smarta hem',luftvarmepump:'Luftvärmepump',lastbalansering:'Lastbalansering',kok:'El i kök',koksrenovering:'Köksrenovering',inomhusbelysning:'Inomhusbelysning',jordfelsbrytare:'Jordfelsbrytare',glodlampa:'Glödlampor',golvvarme:'Golvvärme','felsokning-av-el':'Felsökning av el',elrenovering:'Elrenovering',elcentral:'Elcentral',elbesiktning:'Elbesiktning',belysning:'Belysning',badrumsrenovering:'Badrumsrenovering',armatur:'Armatur',badrum:'El i badrum'};
   var EFX={
     villor:{kundtyp:'privat',label:'el till din villa',vertical:'service',opts:PRIVAT_OPTS},
     radhus:{kundtyp:'privat',label:'el till ditt radhus',vertical:'service',opts:PRIVAT_OPTS},
@@ -122,8 +122,8 @@ svg.ic{display:block}
     hotell:{kundtyp:'foretag',label:'el till ert hotell',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Laddbox','Service & underhåll','Energi & effekt','Elbesiktning','Elfel','Annat']},
     kontor:{kundtyp:'foretag',label:'el till ert kontor',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Laddbox','Service & underhåll','Elfel','Annat']},
     butik:{kundtyp:'foretag',label:'el till er butik',vertical:'foretag_brf',opts:['Belysning','Större elinstallation','Service & underhåll','Laddbox','Elfel','Annat']},
-    kommuner:{kundtyp:'foretag',label:'el till er kommun',vertical:'foretag_brf',orgLabel:'Förvaltning/enhet',opts:['Större elinstallation','Belysning','Elbesiktning','Laddbox','Service & underhåll','Energi & effekt','Elfel','Annat']},
-    idrottshallar:{kundtyp:'foretag',label:'el till er idrottshall',vertical:'foretag_brf',opts:['Större elinstallation','Belysning','Energi & effekt','Service & underhåll','Elbesiktning','Elfel','Annat']},
+    kommuner:{kundtyp:'foretag',label:'el till er kommun',vertical:'foretag_brf',orgLabel:'Förvaltning eller enhet',opts:['Större elinstallation','Belysning','Elbesiktning','Laddbox','Service & underhåll','Energi & effekt','Elfel','Annat']},
+    idrottshallar:{kundtyp:'foretag',label:'el till er idrottshall',vertical:'foretag_brf',orgLabel:'Verksamhetens namn',opts:['Större elinstallation','Belysning','Energi & effekt','Service & underhåll','Elbesiktning','Elfel','Annat']},
     foretag:{kundtyp:'foretag',label:'el till ert företag',vertical:'foretag_brf',opts:ORG_OPTS},
     byggforetag:{kundtyp:'foretag',label:'el i era byggprojekt',vertical:'foretag_brf',opts:['Större elinstallation','Elbesiktning','Belysning','Service & underhåll','Elfel','Annat']},
     entreprenad:{kundtyp:'foretag',label:'el i ert entreprenaduppdrag',vertical:'foretag_brf',opts:['Större elinstallation','Elbesiktning','Belysning','Laddbox','Service & underhåll','Annat']},
@@ -145,7 +145,7 @@ svg.ic{display:block}
     var m;
     if(m=p.match(/^\/elservice\/([^/]+)$/)){var lbl=SERVICE[m[1]]; if(lbl) return {render:true,kundtyp:'privat',tjanst:lbl,tjanstLocked:true,vertical:'service',source:p};}
     if(p==='/elservice') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
-    var efx=EFX[p.replace(/^\//,'')]; if(efx) return {render:true,kundtyp:efx.kundtyp,kundtypLocked:true,ask:true,opts:efx.opts,label:efx.label,orgLabel:efx.orgLabel,vertical:efx.vertical,source:p};
+    var efx=EFX[p.replace(/^\//,'')]; if(efx) return {render:true,kundtyp:efx.kundtyp,kundtypLocked:false,ask:true,opts:efx.opts,label:efx.label,orgLabel:efx.orgLabel,vertical:efx.vertical,source:p};
     if(m=p.match(/^\/laddbox\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,ort:ortName(m[1]),vertical:'laddbox',source:p};
     if(m=p.match(/^\/elinstallation\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,ort:ortName(m[1]),vertical:'service',source:p};
     if(m=p.match(/^\/elektriker\/([^/]+)$/)) return {render:true,kundtyp:'privat',ask:true,ort:ortName(m[1]),vertical:'service',source:p};

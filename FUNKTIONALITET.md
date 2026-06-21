@@ -114,8 +114,10 @@ sin delmängd. Org-tillägg som saknas idag och som org-kunder faktiskt frågar 
 - **CMO:** "Verifierat mot `ampy-dash-2` arbetstyp-enum (`energilosningar`) — exakt match; `lead-mapping.ts`
   routar 'Energilösningar' → `oklart` by design (laddbox vs batteri kan ej avgöras från ett fält)."
 
-**PO-beslut krävs:** öppna `ampy-dash-2` och bekräfta om `energilosningar` är ett giltigt `arbetstyp`-värde.
-**PO-rekommendation:** oavsett — **dela "Energilösningar" i "Laddbox" + "Energi & effekt (batteri/solel)"**
+✅ **BESLUTAT (taxonomi §5–6): "Dela + org-superset"** — privat får Laddbox + Energi & effekt som egna val,
+org-sidor får org-supersetet (Större elinstallation, Service & underhåll, Elbesiktning m.m.). Implementerat i resolvern.
+**Kvarstår att VERIFIERA mot `ampy-dash-2`:** är `energilosningar` ett giltigt `arbetstyp`-enum? (påverkar bara hidden-värdets mappning, inte UI:t).
+Bakgrund — **dela "Energilösningar" i "Laddbox" + "Energi & effekt (batteri/solel)"**
 i selecten. Det minskar `oklart`-andelen och ger bokaren ett rent värde. (Tills bekräftat: behåll inte ett
 påhittat enum-värde i `tjanst_intresse`, det är fri-text och bokaren läser det.)
 
@@ -156,9 +158,9 @@ mappa Tidsram-dropdownen), `beskrivning`, `bilder[]`, `lead_magnet_slug` (**åte
 
 | # | Fråga | PO-rekommendation |
 |---|---|---|
-| 1 | EFX-segment: låst eller bara förvalt? | **Låst** med diskret "är du privatperson?"-utväg (undvik att fånga fel kundtyp) |
-| 2 | "kommuner"/offentlig kundtyp (CRM har bara privat/brf/foretag) | Mappa → **foretag**, byt fält-etikett till "Förvaltning/enhet" på kommun-sidan |
-| 3 | Service-sida + byte till BRF/Företag → behåll låst tjänst? | **Behåll** den låsta tjänsten (de är på elcentral-sidan för elcentral) |
+| 1 | EFX-segment: låst eller bara förvalt? | ✅ **BESLUTAT: bara förvald (öppet)** — kundtyp förväljs per sida men är fritt bytbar; ingen låsning |
+| 2 | "kommuner"/offentlig kundtyp (CRM har bara privat/brf/foretag) | ✅ **BESLUTAT: under foretag**, men namn-fältet får offentlig-anpassad etikett ("Förvaltning eller enhet" för kommun, "Verksamhetens namn" för idrottshall) |
+| 3 | Service-sida + byte till BRF/Företag → behåll låst tjänst? | ✅ **BESLUTAT: behåll låst tjänst**; elcentral-chip ändrad till enbart "Elcentral" (ej "Byte av elcentral") |
 | 4 | CRM-arbetstyp för golvvarme/felsokning/luftvarmepump (saknar eget enum) | golvvärme→elinstallation, felsökning→elfel, luftvärmepump→elinstallation; chip visar vänlig etikett |
 | 5 | "Annat" med underrubriker (nämnt, ej byggt) | "Annat" → fritext i beskrivning; sub-options senare |
 | 6 | Ort-fält: redigerbart eller dolt + eyebrow? | Dolt + i eyebrow; **postnr kvar som krav** (en ort = flera postnr) |
