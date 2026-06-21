@@ -117,6 +117,7 @@
     bostadsrattsforening:{kundtyp:'brf',label:'el till er förening',vertical:'foretag_brf',orgLabel:'Föreningens namn',opts:['Laddbox','Större elinstallation','Belysning','Elbesiktning','Service & underhåll','Energi & effekt','Elfel','Annat']},
     tredjepartsinstallationer:{kundtyp:'foretag',label:'tredjepartsinstallation',vertical:'foretag_brf',opts:['Större elinstallation','Laddbox','Belysning','Service & underhåll','Elbesiktning','Elfel','Annat']}
   };
+  var FORLABEL={villor:'villa',radhus:'radhus',restauranger:'restaurang',hotell:'hotell',kontor:'kontor',butik:'butik',kommuner:'kommun',idrottshallar:'idrottshall',foretag:'företag',byggforetag:'byggföretag',entreprenad:'entreprenad',bostadsrattsforening:'bostadsrättsförening',tredjepartsinstallationer:'tredjepartsinstallation'};
   var SV_ORT={nacka:'Nacka',sodertalje:'Södertälje',sollentuna:'Sollentuna',taby:'Täby',jarfalla:'Järfälla',vaxholm:'Vaxholm',varmdo:'Värmdö',vallingby:'Vällingby',huddinge:'Huddinge',solna:'Solna',stockholm:'Stockholm','upplands-vasby':'Upplands Väsby',tyreso:'Tyresö',lidingo:'Lidingö',osteraker:'Österåker',bromma:'Bromma',sundbyberg:'Sundbyberg'};
   var BRADSKA={'Inom 24 timmar':'24h','Inom 72 timmar':'72h','Om 1-2 veckor':'1_2v','Flexibelt':'flexibel'};
   var UTIL=['/offert','/kopvillkor','/integritetspolicy','/cookiepolicy','/thank-you','/nyheter','/tillganglighet','/om-oss'];
@@ -133,10 +134,10 @@
     var m;
     if((m=p.match(/^\/elservice\/([^/]+)$/))&&SERVICE[m[1]]) return {render:true,kundtyp:'privat',tjanst:SERVICE[m[1]],tjanstLocked:true,vertical:'service',source:p};
     if(p==='/elservice') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
-    var efx=EFX[p.replace(/^\//,'')]; if(efx) return {render:true,kundtyp:efx.kundtyp,ask:true,opts:efx.opts,label:efx.label,orgLabel:efx.orgLabel,vertical:efx.vertical,source:p};
-    if(m=p.match(/^\/laddbox\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,ort:ortName(m[1]),vertical:'laddbox',source:p};
-    if(m=p.match(/^\/elinstallation\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,ort:ortName(m[1]),vertical:'service',source:p};
-    if(m=p.match(/^\/elektriker\/([^/]+)$/)) return {render:true,kundtyp:'privat',ask:true,ort:ortName(m[1]),vertical:'service',source:p};
+    var es=p.replace(/^\//,''),efx=EFX[es]; if(efx) return {render:true,kundtyp:efx.kundtyp,ask:true,opts:efx.opts,label:efx.label,forLabel:FORLABEL[es],orgLabel:efx.orgLabel,vertical:efx.vertical,source:p};
+    if(m=p.match(/^\/laddbox\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,ort:ortName(m[1]),ortWord:'Laddbox',vertical:'laddbox',source:p};
+    if(m=p.match(/^\/elinstallation\/([^/]+)$/)) return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,ort:ortName(m[1]),ortWord:'Elinstallation',vertical:'service',source:p};
+    if(m=p.match(/^\/elektriker\/([^/]+)$/)) return {render:true,kundtyp:'privat',ask:true,ort:ortName(m[1]),ortWord:'Elektriker',vertical:'service',source:p};
     if(p==='/elektriker') return {render:true,kundtyp:'privat',ask:true,vertical:'service',source:p};
     if(p==='/laddbox') return {render:true,kundtyp:'privat',tjanst:'Laddbox',tjanstLocked:true,vertical:'laddbox',source:p};
     if(p==='/elinstallation') return {render:true,kundtyp:'privat',tjanst:'Elinstallation',tjanstLocked:true,vertical:'service',source:p};
@@ -154,7 +155,7 @@
   function seg(){return '<div class="seg" role="radiogroup" aria-label="Kundtyp">'+['privat','brf','foretag'].map(function(k){return '<button type="button" role="radio" data-seg="'+k+'" aria-checked="'+(st.seg===k)+'">'+SEG[k]+'</button>';}).join('')+'</div>';}
   function orgFields(cfg){if(st.seg==='privat')return '';var nm=st.seg==='brf'?(cfg.orgLabel||'Föreningens namn'):(cfg.orgLabel||'Företagsnamn');return fld(nm,'orgname','text',false,true)+fld('Organisationsnummer','orgnr','num',false,true);}
   function tjanstBlock(cfg){
-    var chip=cfg.tjanstLocked?('Gäller: '+cfg.tjanst+(cfg.ort?' · '+cfg.ort:'')):cfg.label?('Gäller: '+cfg.label):cfg.ort?('Elektriker i '+cfg.ort):null;
+    var chip=(cfg.ort&&cfg.ortWord)?(cfg.ortWord+' i '+cfg.ort):cfg.forLabel?('Elektriker för '+cfg.forLabel):cfg.tjanstLocked?('Gäller: '+cfg.tjanst):cfg.ort?('Elektriker i '+cfg.ort):null;
     var h=chip?'<div class="gchip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span>'+chip+'</span></div>':'';
     if(cfg.ask){var o=cfg.opts||(st.seg==='privat'?PRIVAT_OPTS:ORG_OPTS);h+='<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj">'+o.map(function(x){return '<option>'+x+'</option>'}).join('')+'</select></div>';}
     return h;
@@ -165,7 +166,7 @@
     var cfg=resolve(PATH); st.cfg=cfg;
     if(!cfg.render){root.innerHTML='<div class="card"><h1 class="title" style="white-space:normal;font-size:22px">Inget formulär här</h1><p class="subtitle">'+cfg.reason+'</p></div>';return;}
     if(st.done){root.innerHTML='<div class="card"><div class="done"><div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></div><h2>Tack, vi har din förfrågan</h2><p>Vi hör av oss med ett förslag.</p></div>'+(PREVIEW&&st.lastPayload?'<div class="payload">PREVIEW — detta skulle POSTas till '+ENDPOINT+':\n'+st.lastPayload+'</div>':'')+'</div>';return;}
-    root.innerHTML='<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Tjänsten är helt gratis och du binder dig inte!</p>'+
+    root.innerHTML='<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Vår behöriga elektriker återkommer via telefon!</p>'+
       '<form novalidate><div class="group">'+seg()+'</div>'+
       '<div class="group">'+tjanstBlock(cfg)+orgFields(cfg)+fld('Namn','namn','text',false)+'<div class="row2">'+fld('Telefon','telefon','tel',false)+fld('Postnummer','postnr','num',false)+'</div></div>'+
       '<div class="disc" data-open="'+st.open+'"><button type="button" data-act="toggle">Fler detaljer (valfritt)<svg class="chev ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l5 5 5-5"/></svg></button><div class="disc-body"><div class="group">'+enrich()+'</div></div></div>'+
