@@ -92,7 +92,7 @@
   .aof{max-width:none}
   .aof .card{padding:24px 20px;border-radius:22px}
   .aof .title{font-size:24px;white-space:normal;line-height:1.2}
-  .aof .row2{flex-direction:column;gap:0}
+  .aof .row2{flex-direction:column;gap:0;margin-top:0}
   .aof .row2 .fld{margin-top:10px}
   .aof .inp{height:52px}
   .aof .btn{height:54px}
@@ -181,9 +181,9 @@
     return '<div class="fld"><label class="l" for="aof-'+id+'">'+esc(label)+(opt?' <span class="opt">(valfritt)</span>':'')+'</label><input class="inp" id="aof-'+id+'" type="'+t+'"'+im+' autocomplete="'+ac+'" aria-describedby="aof-'+id+'-h"><p class="help" id="aof-'+id+'-h"></p></div>';}
   function seg(){return '<div class="seg" role="radiogroup" aria-label="Kundtyp">'+['privat','brf','foretag'].map(function(k){var s=st.seg===k;return '<button type="button" role="radio" data-seg="'+k+'" aria-checked="'+s+'" tabindex="'+(s?'0':'-1')+'">'+SEG[k]+'</button>';}).join('')+'</div>';}
   function requiredFields(cfg){
-    if(st.seg==='privat') return fld('Namn','namn','text',false)+fld('Telefon','telefon','tel',false)+'<div class="row2">'+fld('E-post','epost','email',false)+fld('Postnummer','postnr','num',false)+'</div>';
+    if(st.seg==='privat') return fld('Namn','namn','text',false)+fld('Postnummer','postnr','num',false)+'<div class="row2">'+fld('E-post','epost','email',false)+fld('Telefonnummer','telefon','tel',false)+'</div>';
     var useL=(st.seg===cfg.kundtyp)?cfg.orgLabel:null;var nm=st.seg==='brf'?(useL||'Föreningens namn'):(useL||'Företagsnamn');
-    return fld(nm,'orgname','text',false)+'<div class="row2">'+fld('Kontaktperson','kontakt','text',false)+fld('E-post','epost','email',false)+'</div><div class="row2">'+fld('Telefon','telefon','tel',false)+fld('Postnummer','postnr','num',false)+'</div>';
+    return fld(nm,'orgname','text',false)+'<div class="row2">'+fld('Kontaktperson','kontakt','text',false)+fld('Postnummer','postnr','num',false)+'</div><div class="row2">'+fld('Telefonnummer','telefon','tel',false)+fld('E-post','epost','email',false)+'</div>';
   }
   function tjanstBlock(cfg){
     var chip=(cfg.ort&&cfg.ortWord)?(cfg.ortWord+' i '+cfg.ort):cfg.forLabel?('Elektriker för '+cfg.forLabel):cfg.tjanstLocked?('Gäller: '+cfg.tjanst):null;
