@@ -181,7 +181,7 @@
     return '<div class="fld"><label class="l" for="aof-'+id+'">'+esc(label)+(opt?' <span class="opt">(valfritt)</span>':'')+'</label><input class="inp" id="aof-'+id+'" type="'+t+'"'+im+' autocomplete="'+ac+'" aria-describedby="aof-'+id+'-h"><p class="help" id="aof-'+id+'-h"></p></div>';}
   function seg(){return '<div class="seg" role="radiogroup" aria-label="Kundtyp">'+['privat','brf','foretag'].map(function(k){var s=st.seg===k;return '<button type="button" role="radio" data-seg="'+k+'" aria-checked="'+s+'" tabindex="'+(s?'0':'-1')+'">'+SEG[k]+'</button>';}).join('')+'</div>';}
   function requiredFields(cfg){
-    if(st.seg==='privat') return fld('Namn','namn','text',false)+fld('Postnummer','postnr','num',false)+'<div class="row2">'+fld('E-post','epost','email',false)+fld('Telefonnummer','telefon','tel',false)+'</div>';
+    if(st.seg==='privat') return fld('Namn','namn','text',false)+'<div class="row2">'+fld('Telefonnummer','telefon','tel',false)+fld('E-post','epost','email',false)+'</div><div class="row2">'+fld('Adress','adress','text',false)+fld('Postnummer','postnr','num',false)+'</div>';
     var useL=(st.seg===cfg.kundtyp)?cfg.orgLabel:null;var nm=st.seg==='brf'?(useL||'Föreningens namn'):(useL||'Företagsnamn');
     return fld(nm,'orgname','text',false)+'<div class="row2">'+fld('Kontaktperson','kontakt','text',false)+fld('Postnummer','postnr','num',false)+'</div><div class="row2">'+fld('Telefonnummer','telefon','tel',false)+fld('E-post','epost','email',false)+'</div>';
   }
@@ -191,7 +191,7 @@
     if(cfg.ask){var o=(st.seg==='privat')?PRIVAT_OPTS:(cfg.opts||ORG_OPTS);h+='<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj">'+o.map(function(x){return '<option>'+esc(x)+'</option>';}).join('')+'</select></div>';}
     return h;
   }
-  function enrich(cfg){var org=(st.seg!=='privat')?fld('Organisationsnummer','orgnr','num',true):'';return org+'<div class="fld"><label class="l" for="aof-beskriv">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="aof-beskriv"></textarea></div>'+fld('Adress','adress','text',true)+'<div class="fld"><label class="l" for="aof-tid">Tidsram <span class="opt">(valfritt)</span></label><select class="inp" id="aof-tid"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l" for="aof-bilder">Bilder <span class="opt">(valfritt)</span></label><label class="upload"><input type="file" id="aof-bilder" accept="image/*" multiple style="position:absolute;left:-9999px"><span>Ladda upp bilder</span></label></div>';}
+  function enrich(cfg){var isOrg=(st.seg!=='privat');var org=isOrg?fld('Organisationsnummer','orgnr','num',true):'';var adress=isOrg?fld('Adress','adress','text',true):'';return org+'<div class="fld"><label class="l" for="aof-beskriv">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="aof-beskriv"></textarea></div>'+adress+'<div class="fld"><label class="l" for="aof-tid">Tidsram <span class="opt">(valfritt)</span></label><select class="inp" id="aof-tid"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l" for="aof-bilder">Bilder <span class="opt">(valfritt)</span></label><label class="upload"><input type="file" id="aof-bilder" accept="image/*" multiple style="position:absolute;left:-9999px"><span>Ladda upp bilder</span></label></div>';}
   function formCard(cfg){
     return '<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Vår behöriga elektriker återkommer via telefon!</p>'+
       '<form novalidate><div class="group">'+seg()+'</div>'+
@@ -225,9 +225,9 @@
 
   function val(id){var e=document.getElementById('aof-'+id);return e?e.value.trim():'';}
   function validate(){
-    var ids=(st.seg==='privat')?['namn','telefon','epost','postnr']:['orgname','kontakt','telefon','epost','postnr'];
+    var ids=(st.seg==='privat')?['namn','telefon','epost','adress','postnr']:['orgname','kontakt','telefon','epost','postnr'];
     var ok=true,first=null;
-    var MSG={namn:'Skriv ditt namn.',kontakt:'Skriv kontaktpersonens namn.',telefon:'Skriv ett telefonnummer vi kan nå dig på.',epost:'Skriv en giltig e-postadress.',postnr:'Postnummer ska vara fem siffror.',orgname:'Fyll i namnet.'};
+    var MSG={namn:'Skriv ditt namn.',kontakt:'Skriv kontaktpersonens namn.',telefon:'Skriv ett telefonnummer vi kan nå dig på.',epost:'Skriv en giltig e-postadress.',adress:'Fyll i adressen.',postnr:'Postnummer ska vara fem siffror.',orgname:'Fyll i namnet.'};
     ids.forEach(function(id){var el=document.getElementById('aof-'+id);if(!el)return;var f=el.closest('.fld'),bad=false,v=el.value.trim();
       if(id==='postnr')bad=!/^\d{3}\s?\d{2}$/.test(v);
       else if(id==='telefon')bad=v.replace(/[\s\-()]/g,'').replace(/^\+46/,'0').replace(/\D/g,'').length<7;
