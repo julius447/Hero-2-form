@@ -1,11 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "hero2",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8787", "--directory", "build"],
-      "port": 8787
-    }
+    { "name": "aof", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8731"], "port": 8731 }
   ]
 }
