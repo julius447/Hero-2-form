@@ -97,6 +97,26 @@
   .aof .inp{height:52px}
   .aof .btn{height:54px}
 }
+@media (min-width:601px){
+  .aof .card{padding:22px}
+  .aof .title{font-size:23px}
+  .aof .subtitle{font-size:14px;margin-top:4px}
+  .aof .group{margin-top:12px}
+  .aof .fld{margin-top:8px}
+  .aof .row2{margin-top:8px}
+  .aof label.l{font-size:13px;line-height:16px;margin-bottom:5px}
+  .aof .inp{height:44px;font-size:16px}
+  .aof textarea.inp{height:62px}
+  .aof .seg{gap:10px}
+  .aof .seg button{height:40px;font-size:16px}
+  .aof .gchip{padding:9px 13px;font-size:14px}
+  .aof .consent{margin-top:12px}
+  .aof .consent span{font-size:12px}
+  .aof .btn{height:46px;font-size:18px;margin-top:14px}
+  .aof .disc{margin-top:12px}
+  .aof .disc>button{height:42px;font-size:14px}
+  .aof .upload{height:50px}
+}
 </style>
 </head>
 <body>
@@ -185,13 +205,15 @@
     var useL=(st.seg===cfg.kundtyp)?cfg.orgLabel:null;var nm=st.seg==='brf'?(useL||'Föreningens namn'):(useL||'Företagsnamn');
     return fld(nm,'orgname','text',false)+'<div class="row2">'+fld('Kontaktperson','kontakt','text',false)+fld('Postnummer','postnr','num',false)+'</div><div class="row2">'+fld('Telefonnummer','telefon','tel',false)+fld('E-post','epost','email',false)+'</div>';
   }
+  function serviceSelect(cfg){var o=(st.seg==='privat')?PRIVAT_OPTS:(cfg.opts||ORG_OPTS);return '<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj">'+o.map(function(x){return '<option>'+esc(x)+'</option>';}).join('')+'</select></div>';}
   function tjanstBlock(cfg){
-    var chip=(cfg.ort&&cfg.ortWord)?(cfg.ortWord+' i '+cfg.ort):cfg.forLabel?('Elektriker för '+cfg.forLabel):cfg.tjanstLocked?('Gäller: '+cfg.tjanst):null;
+    var isEFX=!!cfg.forLabel; /* Form 3 (EFX): ingen chip, "Vad gäller arbetet?" i huvudvyn */
+    var chip=isEFX?null:((cfg.ort&&cfg.ortWord)?(cfg.ortWord+' i '+cfg.ort):cfg.tjanstLocked?('Gäller: '+cfg.tjanst):null);
     var h=chip?'<div class="gchip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span>'+esc(chip)+'</span></div>':'';
-    if(cfg.ask){var o=(st.seg==='privat')?PRIVAT_OPTS:(cfg.opts||ORG_OPTS);h+='<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj">'+o.map(function(x){return '<option>'+esc(x)+'</option>';}).join('')+'</select></div>';}
+    if(cfg.ask&&isEFX)h+=serviceSelect(cfg);
     return h;
   }
-  function enrich(cfg){var isOrg=(st.seg!=='privat');var org=isOrg?fld('Organisationsnummer','orgnr','num',true):'';var adress=isOrg?fld('Adress','adress','text',true):'';return org+'<div class="fld"><label class="l" for="aof-beskriv">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="aof-beskriv"></textarea></div>'+adress+'<div class="fld"><label class="l" for="aof-tid">Tidsram <span class="opt">(valfritt)</span></label><select class="inp" id="aof-tid"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l" for="aof-bilder">Bilder <span class="opt">(valfritt)</span></label><label class="upload"><input type="file" id="aof-bilder" accept="image/*" multiple style="position:absolute;left:-9999px"><span>Ladda upp bilder</span></label></div>';}
+  function enrich(cfg){var isOrg=(st.seg!=='privat');var svc=(cfg.ask&&!cfg.forLabel)?serviceSelect(cfg):'';var org=isOrg?fld('Organisationsnummer','orgnr','num',true):'';var adress=isOrg?fld('Adress','adress','text',true):'';return svc+org+'<div class="fld"><label class="l" for="aof-beskriv">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="aof-beskriv"></textarea></div>'+adress+'<div class="fld"><label class="l" for="aof-tid">Tidsram <span class="opt">(valfritt)</span></label><select class="inp" id="aof-tid"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l" for="aof-bilder">Bilder <span class="opt">(valfritt)</span></label><label class="upload"><input type="file" id="aof-bilder" accept="image/*" multiple style="position:absolute;left:-9999px"><span>Ladda upp bilder</span></label></div>';}
   function formCard(cfg){
     return '<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Vår behöriga elektriker återkommer via telefon!</p>'+
       '<form novalidate><div class="group">'+seg()+'</div>'+
