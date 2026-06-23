@@ -1,6 +1,11 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "aof", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8731"], "port": 8731 }
+    {
+      "name": "ampy-form",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8753", "--directory", "/Users/juliuscallahan/Desktop/Hero 2 formulär/bricks"],
+      "port": 8753
+    }
   ]
 }

@@ -108,10 +108,11 @@
   .aof .inp{height:44px;font-size:16px}
   .aof textarea.inp{height:62px}
   .aof .seg{gap:10px}
-  .aof .seg button{height:40px;font-size:16px}
+  .aof .seg button{height:44px;font-size:16px}
   .aof .gchip{padding:9px 13px;font-size:14px}
   .aof .consent{margin-top:12px}
   .aof .consent span{font-size:12px}
+  .aof .help{font-size:12px}
   .aof .btn{height:46px;font-size:18px;margin-top:14px}
   .aof .disc{margin-top:12px}
   .aof .disc>button{height:42px;font-size:14px}
@@ -205,10 +206,10 @@
     var useL=(st.seg===cfg.kundtyp)?cfg.orgLabel:null;var nm=st.seg==='brf'?(useL||'Föreningens namn'):(useL||'Företagsnamn');
     return fld(nm,'orgname','text',false)+'<div class="row2">'+fld('Kontaktperson','kontakt','text',false)+fld('Postnummer','postnr','num',false)+'</div><div class="row2">'+fld('Telefonnummer','telefon','tel',false)+fld('E-post','epost','email',false)+'</div>';
   }
-  function serviceSelect(cfg){var o=(st.seg==='privat')?PRIVAT_OPTS:(cfg.opts||ORG_OPTS);return '<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj">'+o.map(function(x){return '<option>'+esc(x)+'</option>';}).join('')+'</select></div>';}
+  function serviceSelect(cfg){var o=(st.seg==='privat')?PRIVAT_OPTS:(cfg.opts||ORG_OPTS);return '<div class="fld"><label class="l" for="aof-tj">Vad gäller arbetet?</label><select class="inp" id="aof-tj" aria-describedby="aof-tj-h"><option value="">Välj vad det gäller</option>'+o.map(function(x){return '<option>'+esc(x)+'</option>';}).join('')+'</select><p class="help" id="aof-tj-h"></p></div>';}
   function tjanstBlock(cfg){
-    var isEFX=!!cfg.forLabel; /* Form 3 (EFX): ingen chip, "Vad gäller arbetet?" i huvudvyn */
-    var chip=isEFX?null:((cfg.ort&&cfg.ortWord)?(cfg.ortWord+' i '+cfg.ort):cfg.tjanstLocked?('Gäller: '+cfg.tjanst):null);
+    var isEFX=!!cfg.forLabel; /* Form 3 (EFX): kundtyp känd av sidan -> ingen segment-väljare; "Elektriker för X"-tagg + "Vad gäller arbetet?" */
+    var chip=isEFX?('Elektriker för '+cfg.forLabel):((cfg.ort&&cfg.ortWord)?(cfg.ortWord+' i '+cfg.ort):cfg.tjanstLocked?('Gäller: '+cfg.tjanst):null);
     var h=chip?'<div class="gchip"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span>'+esc(chip)+'</span></div>':'';
     if(cfg.ask&&isEFX)h+=serviceSelect(cfg);
     return h;
@@ -216,7 +217,7 @@
   function enrich(cfg){var isOrg=(st.seg!=='privat');var svc=(cfg.ask&&!cfg.forLabel)?serviceSelect(cfg):'';var org=isOrg?fld('Organisationsnummer','orgnr','num',true):'';var adress=isOrg?fld('Adress','adress','text',true):'';return svc+org+'<div class="fld"><label class="l" for="aof-beskriv">Beskriv uppdraget <span class="opt">(valfritt)</span></label><textarea class="inp" id="aof-beskriv"></textarea></div>'+adress+'<div class="fld"><label class="l" for="aof-tid">Tidsram <span class="opt">(valfritt)</span></label><select class="inp" id="aof-tid"><option value="">Välj tidsram</option><option>Inom 24 timmar</option><option>Inom 72 timmar</option><option>Om 1-2 veckor</option><option>Flexibelt</option></select></div><div class="fld"><label class="l" for="aof-bilder">Bilder <span class="opt">(valfritt)</span></label><label class="upload"><input type="file" id="aof-bilder" accept="image/*" multiple style="position:absolute;left:-9999px"><span>Ladda upp bilder</span></label></div>';}
   function formCard(cfg){
     return '<div class="card"><h1 class="title">Få kostnadsfri rådgivning!</h1><p class="subtitle">Vår behöriga elektriker återkommer via telefon!</p>'+
-      '<form novalidate><div class="group">'+seg()+'</div>'+
+      '<form novalidate>'+(cfg.forLabel?'':'<div class="group">'+seg()+'</div>')+
       '<div class="group">'+tjanstBlock(cfg)+requiredFields(cfg)+'</div>'+
       '<div class="disc" data-open="'+st.open+'"><button type="button" data-act="toggle" aria-expanded="'+st.open+'">Fler detaljer (valfritt)<svg class="chev ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8l5 5 5-5"/></svg></button><div class="disc-body"><div class="group">'+enrich(cfg)+'</div></div></div>'+
       '<label class="consent"><input type="checkbox" id="aof-gdpr"><span>Jag godkänner att Ampy behandlar mina uppgifter enligt <a href="https://ampy.se/integritetspolicy" target="_blank" rel="noopener">integritetspolicyn</a>.</span></label><p class="help" id="aof-gdpr-h" style="margin-left:31px">Vi behöver ditt godkännande för att få kontakta dig.</p>'+
@@ -235,7 +236,7 @@
     snap();
     var cfg;try{cfg=resolve(rawPath);}catch(e){cfg={render:true,kundtyp:'privat',ask:true,vertical:'oklart',source:rawPath};}
     st.cfg=cfg;
-    if(cfg.kundtyp&&!st.segTouched)st.seg=cfg.kundtyp;
+    if(cfg.kundtyp&&(cfg.forLabel||!st.segTouched))st.seg=cfg.kundtyp; /* EFX: kundtyp är låst av sidan */
     try{
       if(!cfg.render){root.innerHTML=excludeCard(cfg);return;}
       if(st.error){root.innerHTML=errorCard();var eh=root.querySelector('.done h2');if(eh)eh.focus();return;}
@@ -248,12 +249,14 @@
   function val(id){var e=document.getElementById('aof-'+id);return e?e.value.trim():'';}
   function validate(){
     var ids=(st.seg==='privat')?['namn','telefon','epost','adress','postnr']:['orgname','kontakt','telefon','epost','postnr'];
+    if(st.cfg&&st.cfg.forLabel)ids.push('tj'); /* EFX: "Vad gäller arbetet?" syns i huvudvyn -> obligatorisk */
     var ok=true,first=null;
-    var MSG={namn:'Skriv ditt namn.',kontakt:'Skriv kontaktpersonens namn.',telefon:'Skriv ett telefonnummer vi kan nå dig på.',epost:'Skriv en giltig e-postadress.',adress:'Fyll i adressen.',postnr:'Postnummer ska vara fem siffror.',orgname:'Fyll i namnet.'};
+    var MSG={namn:'Skriv ditt namn.',kontakt:'Skriv kontaktpersonens namn.',telefon:'Skriv ett telefonnummer vi kan nå dig på.',epost:'Skriv en giltig e-postadress.',adress:'Fyll i adressen.',postnr:'Postnummer ska vara fem siffror.',orgname:'Fyll i namnet.',tj:'Välj vad det gäller.'};
     ids.forEach(function(id){var el=document.getElementById('aof-'+id);if(!el)return;var f=el.closest('.fld'),bad=false,v=el.value.trim();
       if(id==='postnr')bad=!/^\d{3}\s?\d{2}$/.test(v);
       else if(id==='telefon')bad=v.replace(/[\s\-()]/g,'').replace(/^\+46/,'0').replace(/\D/g,'').length<7;
       else if(id==='epost')bad=!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+      else if(id==='tj')bad=!v;
       else bad=v.length<2;
       var h=document.getElementById('aof-'+id+'-h');if(h)h.textContent=bad?(MSG[id]||''):'';
       if(f)f.classList.toggle('err',bad);el.setAttribute('aria-invalid',bad?'true':'false');if(bad){ok=false;if(!first)first=el;}});
@@ -263,7 +266,7 @@
     return {ok:ok,first:first};
   }
   function buildPayload(){var cfg=st.cfg;var tjEl=document.getElementById('aof-tj');var tj=cfg.tjanstLocked?cfg.tjanst:(tjEl?tjEl.value:'');var tid=document.getElementById('aof-tid');var hp=document.getElementById('aof-company_url');var bi=document.getElementById('aof-bilder');
-    return {full_name:(st.seg==='privat'?val('namn'):val('kontakt')),phone_e164:toE164(val('telefon')),postal_code:val('postnr').replace(/\D/g,''),email:val('epost'),org_number:(st.seg!=='privat'&&val('orgnr')?val('orgnr').replace(/\D/g,''):null),org_name:(st.seg!=='privat'?val('orgname'):null),kundtyp:st.seg,vertical:cfg.vertical,tjanst_intresse:tj,bradska:(tid&&BRADSKA[tid.value])||null,beskrivning:val('beskriv')||null,street_address:val('adress')||null,bilder_count:(bi&&bi.files?bi.files.length:0),kallsida:cfg.source,source:'bricks',source_form:SOURCE_FORM,consent:true,policy_version:POLICY_VERSION,company_url:(hp?hp.value:'')};
+    return {full_name:(st.seg==='privat'?val('namn'):val('kontakt')),phone_e164:toE164(val('telefon')),postal_code:val('postnr').replace(/\D/g,''),email:val('epost'),org_number:(st.seg!=='privat'&&val('orgnr')?val('orgnr').replace(/\D/g,''):null),org_name:(st.seg!=='privat'?val('orgname'):null),kundtyp:st.seg,vertical:cfg.vertical,tjanst_intresse:tj||null,bradska:(tid&&BRADSKA[tid.value])||null,beskrivning:val('beskriv')||null,street_address:val('adress')||null,bilder_count:(bi&&bi.files?bi.files.length:0),kallsida:cfg.source,source:'bricks',source_form:SOURCE_FORM,consent:true,policy_version:POLICY_VERSION,company_url:(hp?hp.value:'')};
   }
   function submit(){
     if(st.sending)return;
