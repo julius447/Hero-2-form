@@ -1,0 +1,122 @@
+/* ===========================================================================
+   AMPY OFFERTFORMULÄR — DEL 1 av 3: CSS
+   Klistra in i Bricks: Settings -> Custom CSS (sid- eller global-nivå).
+   Allt är scopat under .aof (läcker ej till sajten). @font-face-sökvägen: [VERIFY].
+   .aof-host-regeln är ENBART för granskning utanför Bricks — behövs ej i produktion.
+   =========================================================================== */
+-> Bricks "Custom CSS" (scopat under .aof global class)
+   (2) <div class="aof" data-ampy-path="{{post_url}}">  -> Bricks element/template i Hero 2
+       (sätt data-ampy-path via DYNAMIC DATA — OBLIGATORISKT; location.pathname är bara nödfallback)
+   (3) <script>  -> ETT globalt Bricks Code-element (sitewide)
+
+  DEV MÅSTE göra innan go-live (script-toppen):
+   - ENDPOINT = riktig lead-route; SOURCE_FORM bekräftad; PREVIEW=false.
+   - Endpoint MÅSTE: persistera consent_at (server-timestamp) + policy_version; verifiera honeypot
+     (company_url) tom; normalisera/validera; mappa kallsida -> deals.lead_magnet_slug; hantera bilder
+     via multipart (skickas EJ i JSON-payloaden); rate-limita; returnera 2xx endast vid lyckad skrivning.
+   - Self-hosta Outfit (@font-face nedan) och TA BORT Google Fonts-länken (PREVIEW-ONLY).
+   - ?path= honoreras ENDAST när PREVIEW=true (säkerhet) — i prod styr data-ampy-path/pathname.
+  ===========================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- PREVIEW ONLY — ta bort i produktion, self-hosta Outfit via @font-face nedan -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Outfit';src:url('/wp-content/themes/ampy/fonts/Outfit.woff2') format('woff2-variations');font-weight:300 600;font-display:swap}
+/* [VERIFY PATH] Bekräfta woff2-sökvägen på Ampys tema (gissning ovan). Detta är en VARIABEL font (vikt 300–600).
+   Ship ANTINGEN denna variabelfil ELLER en @font-face per statisk vikt. När self-hostad verifierats: ta bort Google Fonts-länken ovan. */
+/* Palett-tokens scopade till komponenten (läcker EJ till :root/sajten) */
+.aof{--mid:#090b32;--sea:#5eb1bf;--neon1:#55ff9a;--neon2:#00ffda;--crystal:#b6f2ff;--lightblue:#bfe9fb;--teal:#00a991;--ink:#1e1e1e;--charcoal:#333;--gray:#b2b2b2;--white:#fff}
+/* PREVIEW ONLY — .aof-host är granskningsskalet; klistra EJ in i Bricks. I produktion ÄR Hero 2-sektionen bakgrunden. */
+.aof-host{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px;background:radial-gradient(120% 90% at 50% 0%,#16203f 0%,#0a0c1e 62%)}
+.aof *{box-sizing:border-box}
+.aof{width:100%;max-width:470px;font-family:'Outfit',system-ui,sans-serif}
+.aof .card{position:relative;border-radius:27px;padding:28px;color:var(--white);background:var(--mid);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);box-shadow:0 0 38px rgba(181,181,181,.14)}
+.aof .card::before{content:"";position:absolute;inset:0;border-radius:27px;background:linear-gradient(156.51deg,#090B32 -33%,#5EB1BF 111%);opacity:.76;z-index:0}
+.aof .card>*{position:relative;z-index:1}
+.aof .title{font-size:26px;line-height:1.25;font-weight:400;margin:0}
+.aof .subtitle{font-size:15px;line-height:1.3;font-weight:300;color:var(--white);margin:5px 0 0;opacity:.9}
+.aof form{margin:0}
+.aof .group{margin-top:16px}
+.aof .fld{margin-top:10px}
+.aof .fld:first-child{margin-top:0}
+.aof .row2{display:flex;gap:10px;margin-top:10px}
+.aof .row2 .fld{flex:1;margin-top:0;min-width:0}
+.aof label.l{display:block;font-size:14px;line-height:18px;font-weight:400;color:var(--white);margin:0 0 6px}
+.aof label.l .opt{opacity:.7}
+.aof label.l .req{font-size:12px;color:#7fe9d3;opacity:.9}
+.aof .inp{width:100%;height:48px;border:0;border-radius:14px;background:var(--white);color:var(--charcoal);font-family:inherit;font-size:17px;font-weight:400;padding:0 16px;outline:none;transition:box-shadow .15s}
+.aof textarea.inp{height:78px;padding:12px 16px;resize:none;line-height:1.4}
+/* select-pilen nedan är hårdkodad %23333333 == --charcoal (data-URI kan ej läsa CSS-var); håll i synk vid ev. retune */
+.aof select.inp{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' stroke='%23333333' stroke-width='1.6'><path d='M5 8l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 15px center}
+.aof .inp:focus{box-shadow:0 0 0 3px rgba(0,169,145,.5)}
+.aof .fld.err .inp{box-shadow:0 0 0 2px var(--teal)}
+.aof .help{display:none;font-size:13px;line-height:1.35;color:#bff3e6;margin:7px 2px 0}
+.aof .fld.err .help{display:block}
+.aof .seg{display:flex;gap:12px}
+.aof .seg button{flex:1;height:44px;border:0;border-radius:14px;background:var(--white);color:var(--ink);font-family:inherit;font-size:17px;font-weight:400;cursor:pointer;transition:.15s}
+.aof .seg button[aria-checked="true"]{background:var(--lightblue);font-weight:500}
+.aof .seg button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.aof .gchip{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:11px 14px;font-size:15px;color:var(--white)}
+.aof .gchip .ic{width:18px;height:18px;color:#7fe9d3;flex:none}
+.aof .consent{display:flex;gap:10px;align-items:flex-start;margin-top:14px;cursor:pointer}
+.aof .consent input{appearance:none;flex:0 0 21px;width:21px;height:21px;margin:0;border:1.5px solid rgba(255,255,255,.5);border-radius:6px;background:rgba(255,255,255,.06);cursor:pointer;position:relative}
+.aof .consent input:checked{background:var(--teal);border-color:var(--teal)}
+.aof .consent input:checked::after{content:"";position:absolute;left:6.5px;top:3px;width:5px;height:9px;border:solid #042b24;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.aof .consent input:focus-visible{box-shadow:0 0 0 3px rgba(0,169,145,.45)}
+.aof .consent span{font-size:12.5px;line-height:1.45;color:var(--white);opacity:.82}
+.aof .consent a{color:#7fe9d3}
+.aof .consent + .help{margin-left:31px}
+.aof .btn{width:100%;height:52px;border:0;border-radius:14px;font-family:inherit;font-size:19px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:.18s;margin-top:18px}
+.aof .btn-primary{background:linear-gradient(282.84deg,var(--neon1) 20%,var(--neon2) 86%);color:var(--ink)}
+.aof .btn:disabled{opacity:.6;cursor:default}
+.aof .disc{margin-top:14px}
+.aof .disc>button{display:flex;align-items:center;justify-content:space-between;width:100%;height:46px;padding:0 16px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.32);border-radius:14px;color:var(--white);font-family:inherit;font-size:15px;font-weight:400;cursor:pointer}
+.aof .disc[data-open="false"] .disc-body{display:none}
+.aof .disc-body{padding-top:4px}
+.aof .upload{display:flex;align-items:center;justify-content:center;gap:9px;height:58px;border:1.5px dashed rgba(255,255,255,.34);border-radius:14px;color:var(--white);opacity:.7;font-size:14px;margin-top:6px;cursor:pointer}
+.aof .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.aof .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.aof .noform{background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.3);border-radius:20px;padding:24px;color:rgba(255,255,255,.85);font-size:15px;line-height:1.5}
+.aof .noform a{color:#7fe9d3}
+.aof .done{text-align:center;padding:8px 4px}
+.aof .done .ok{width:56px;height:56px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.aof .done .ok svg{width:28px;height:28px;stroke:#042b24}
+.aof .done h2{font-size:23px;font-weight:400;margin:0 0 8px;outline:none}
+.aof .done p{font-size:15px;line-height:1.5;font-weight:300;color:var(--white);opacity:.85;margin:0}
+.aof .done a{color:#7fe9d3}
+.aof .payload{margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#7fe9d3;background:rgba(0,0,0,.25);border:1px solid rgba(127,233,211,.25);border-radius:10px;padding:10px;white-space:pre-wrap;text-align:left}
+.aof svg.ic{display:block}
+@media (max-width:600px){
+  .aof-host{padding:0;align-items:flex-start;background:#0a0c1e}
+  .aof{max-width:none}
+  .aof .card{padding:24px 20px;border-radius:22px}
+  .aof .title{font-size:24px;white-space:normal;line-height:1.2}
+  .aof .row2{flex-direction:column;gap:0;margin-top:0}
+  .aof .row2 .fld{margin-top:10px}
+  .aof .inp{height:52px}
+  .aof .btn{height:54px}
+}
+@media (min-width:601px){
+  .aof .card{padding:22px}
+  .aof .title{font-size:23px}
+  .aof .subtitle{font-size:14px;margin-top:4px}
+  .aof .group{margin-top:12px}
+  .aof .fld{margin-top:8px}
+  .aof .row2{margin-top:8px}
+  .aof label.l{font-size:13px;line-height:16px;margin-bottom:5px}
+  .aof .inp{height:44px;font-size:16px}
+  .aof textarea.inp{height:62px}
+  .aof .seg{gap:10px}
+  .aof .seg button{height:44px;font-size:16px}
+  .aof .gchip{padding:9px 13px;font-size:14px}
+  .aof .consent{margin-top:12px}
+  .aof .consent span{font-size:12px}
+  .aof .help{font-size:12px}
+  .aof .btn{height:46px;font-size:18px;margin-top:14px}
+  .aof .disc{margin-top:12px}
+  .aof .disc>button{height:42px;font-size:14px}
+  .aof .upload{height:50px}
+}
+@media (prefers-reduced-motion:reduce){.aof *,.aof *::before,.aof *::after{transition:none!important}}

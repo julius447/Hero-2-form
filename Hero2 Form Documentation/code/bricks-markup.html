@@ -1,0 +1,10 @@
+<!-- ===========================================================================
+     AMPY OFFERTFORMULÄR — DEL 2 av 3: Markup
+     Lägg i Hero 2-sektionen som ett Bricks Code/HTML-element.
+     data-ampy-path MÅSTE sättas via Bricks DYNAMIC DATA till full path/URL
+     (t.ex. {{post_url}}) — INTE post_slug (bara sista segmentet, bryter resolvern).
+     location.pathname är endast nödfallback. Placera elementet EN gång per sida.
+     Den dolda aria-live-regionen nedan annonserar status för skärmläsare.
+     =========================================================================== -->
+<div class="aof" id="ampy-form-root" data-ampy-path="{{post_url}}"></div>
+<p id="aof-live" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)"></p>
