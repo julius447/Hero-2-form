@@ -372,7 +372,8 @@ toggle.
 ### 6.4 Card builders
 
 - `formCard(cfg)` (line 237) — title (the owner-mandated `Få kostnadsfri
-  rådgivning!` — the only sanctioned `!`), subtitle, optional segment toggle,
+  rådgivning!` — the only sanctioned `!`; there is NO subtitle paragraph — the
+  header is a single enlarged line), optional segment toggle,
   `tjanstBlock` + `requiredFields`, the disclosure with `enrich`, the consent
   checkbox, the honeypot, the submit button.
 - `tjanstBlock(cfg)` (line 229) — builds the chip and, for EFX, the required

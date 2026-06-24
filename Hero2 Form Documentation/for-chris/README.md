@@ -93,7 +93,7 @@ These are the launch gates. The actionable, acceptance-criteria version is `for-
 
 ## 6. A note on honesty (it applies to these docs too)
 
-Ampy's voice is candour: plain Swedish, no exclamation marks (the one owner-mandated exception is the header "Få kostnadsfri rådgivning!" and its subtitle), no superlatives, and never asserting unverified claims like "5.0 på Google", "1000+ kunder", or national/"hela Sverige" coverage. The same honesty applies to this documentation: where something could not be confirmed from the code it is marked **[VERIFY]** or **[GAP]** rather than guessed. If you see those tags, treat them as open questions, not facts.
+Ampy's voice is candour: plain Swedish, no exclamation marks (the one owner-mandated exception is the header "Få kostnadsfri rådgivning!" — a single enlarged line with no subtitle paragraph), no superlatives, and never asserting unverified claims like "5.0 på Google", "1000+ kunder", or national/"hela Sverige" coverage. The same honesty applies to this documentation: where something could not be confirmed from the code it is marked **[VERIFY]** or **[GAP]** rather than guessed. If you see those tags, treat them as open questions, not facts.
 
 ---
 

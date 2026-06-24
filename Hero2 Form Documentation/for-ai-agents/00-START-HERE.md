@@ -21,7 +21,7 @@ Get this one lead form live on ~165 pages — rendering correctly per page, neve
 
 2. **One global element, fixed ids → place it EXACTLY ONCE.** The markup uses hardcoded ids (`#ampy-form-root`, `#aof-namn`, `#aof-gdpr`, `#aof-company_url`, etc.). Two copies on one page = duplicate ids = broken DOM. The script has a duplicate guard (`data-aof-init` + it hides extra `#ampy-form-root` nodes and `console.warn`s), but **do not rely on it** — place the element once per page via a single sitewide global, and place the `<script>` once as one sitewide global Code element.
 
-3. **Candour doctrine (Ampy voice).** Swedish UI, du-tilltal. **No "!"** anywhere except the owner-mandated header `Få kostnadsfri rådgivning!` and its subtitle (already in the code). No superlatives. Never assert "5.0 på Google", "1000+ kunder", or national / "hela Sverige" coverage. Never invent a number, URL, or value. In these docs, mark anything unconfirmed as `[VERIFY]` or `[GAP]` — never guess.
+3. **Candour doctrine (Ampy voice).** Swedish UI, du-tilltal. **No "!"** anywhere except the owner-mandated header `Få kostnadsfri rådgivning!` (already in the code; there is no subtitle paragraph — the header is a single enlarged line). No superlatives. Never assert "5.0 på Google", "1000+ kunder", or national / "hela Sverige" coverage. Never invent a number, URL, or value. In these docs, mark anything unconfirmed as `[VERIFY]` or `[GAP]` — never guess.
 
 4. **The component is frozen — do not regress it.** 21 frontend QA fixes are already baked in (host-derived PREVIEW, utility-subpath exclude, Enter-to-submit, in-place disclosure toggle that preserves focus + selected files, `toE164` +46 normalisation, duplicate-element guard, consent `aria-invalid` / `aria-required`, scoped tokens, backdrop-filter fallback, reduced-motion, etc.). Touching the JS or CSS risks undoing these. See `06-qa-and-acceptance.md` for the full invariant list you must not break.
 
@@ -86,7 +86,7 @@ Also confirm before launch (carried in the relevant files, not the script): the 
 
 - **Do NOT rebuild or restyle the Hero 2 section.** The form is placed *inside* the existing hero; in production the Hero 2 section *is* the background. (`.aof-host` in the file is a PREVIEW-ONLY review shell — never paste it into Bricks.)
 - **Do NOT change any Swedish UI copy.** Customer-facing strings are governed by Ampy's voice (`ampy-rost`). Your documentation prose is English; the UI strings stay Swedish, verbatim.
-- **Do NOT add "!"** anywhere except the existing header `Få kostnadsfri rådgivning!` and its subtitle.
+- **Do NOT add "!"** anywhere except the existing header `Få kostnadsfri rådgivning!` (single enlarged line, no subtitle).
 - **Do NOT make org.nr block submit.** It is optional enrichment by decision.
 - **Do NOT place the element twice.** One sitewide global element + one sitewide global script. Fixed ids depend on it.
 - **Do NOT use `post_slug` for `data-ampy-path`.** Use the full request path/URL via Bricks dynamic data. `post_slug` is the last segment only and breaks multi-segment + bare-root matches.
