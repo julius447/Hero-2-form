@@ -93,7 +93,7 @@ These are the launch gates. The actionable, acceptance-criteria version is `for-
 
 ## 6. A note on honesty (it applies to these docs too)
 
-Ampy's voice is candour: plain Swedish, no exclamation marks (the one owner-mandated exception is the header "Få kostnadsfri rådgivning!" — a single enlarged line with no subtitle paragraph), no superlatives, and never asserting unverified claims like "5.0 på Google", "1000+ kunder", or national/"hela Sverige" coverage. The same honesty applies to this documentation: where something could not be confirmed from the code it is marked **[VERIFY]** or **[GAP]** rather than guessed. If you see those tags, treat them as open questions, not facts.
+Ampy's voice is candour: plain Swedish, no exclamation marks (the owner-mandated exceptions are the header "Få kostnadsfri rådgivning!" and its subtitle "Vår behöriga elektriker återkommer via telefon!" — both keep their "!"), no superlatives, and never asserting unverified claims like "5.0 på Google", "1000+ kunder", or national/"hela Sverige" coverage. The same honesty applies to this documentation: where something could not be confirmed from the code it is marked **[VERIFY]** or **[GAP]** rather than guessed. If you see those tags, treat them as open questions, not facts.
 
 ---
 
@@ -137,5 +137,5 @@ Ampy's voice is candour: plain Swedish, no exclamation marks (the one owner-mand
 - **Bricks global element** — a Bricks builder element defined once and reused across many pages. Edit it in one place and the change propagates everywhere. The form's `<script>` lives in one such global Code element; this is why a single edit touches all ~165 pages (the blast radius).
 - **resolver** — the in-file `resolve(path)` function that reads the page URL and returns the correct form configuration (heading, customer type, job options, locks). It is what makes "one file, many variants, zero per-page editing" possible.
 - **EFX (Elektriker För X)** — Ampy's "Electrician for X" pages (villor, radhus, restauranger, hotell, kontor, etc.). On these pages the customer type is already known from the URL, so the form **locks** it (no Privat/BRF/Företag toggle) and shows a welcoming "Elektriker för X" chip.
-- **candour** — Ampy's house voice: honest, plain Swedish; no exclamation marks (bar the one mandated header), no superlatives, no unverifiable claims. The moat — it governs every customer-facing string.
+- **candour** — Ampy's house voice: honest, plain Swedish; no exclamation marks (bar the mandated header and its subtitle), no superlatives, no unverifiable claims. The moat — it governs every customer-facing string.
 - **ampy-dash-2** — Ampy's CRM and the destination for every lead. One submission becomes two rows: a `customers` row (deduped on phone) and a linked `deals` row. The PHP endpoint writes both.

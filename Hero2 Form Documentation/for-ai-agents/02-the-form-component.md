@@ -371,11 +371,12 @@ toggle.
 
 ### 6.4 Card builders
 
-- `formCard(cfg)` (line 237) — title (the owner-mandated `Få kostnadsfri
-  rådgivning!` — the only sanctioned `!`; there is NO subtitle paragraph — the
-  header is a single enlarged line), optional segment toggle,
-  `tjanstBlock` + `requiredFields`, the disclosure with `enrich`, the consent
-  checkbox, the honeypot, the submit button.
+- `formCard(cfg)` (line 237) — header = title `Få kostnadsfri rådgivning!`
+  (font Outfit, weight 400, **27px desktop / 24px mobile**, one line) + subtitle
+  `Vår behöriga elektriker återkommer via telefon!` (Outfit, weight 300,
+  **14px desktop / 15px base**, opacity .9) — both keep their owner-mandated `!`;
+  then the optional segment toggle, `tjanstBlock` + `requiredFields`, the
+  disclosure with `enrich`, the consent checkbox, the honeypot, the submit button.
 - `tjanstBlock(cfg)` (line 229) — builds the chip and, for EFX, the required
   in-view service select. `isEFX = !!cfg.forLabel`. Chip text: EFX → "Elektriker
   för <forLabel>"; ort → "<ortWord> i <ort>"; locked service → "Gäller:
